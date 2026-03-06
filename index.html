@@ -1,13 +1,189 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>CEN Bootcamp</title>
+
+<style>
+
+body{
+font-family:Arial,Helvetica,sans-serif;
+background:#0f172a;
+color:white;
+margin:0;
+padding:0;
+}
+
+header{
+background:#1e293b;
+padding:20px;
+text-align:center;
+font-size:22px;
+font-weight:bold;
+}
+
+.container{
+padding:20px;
+max-width:700px;
+margin:auto;
+}
+
+button{
+padding:15px;
+margin:10px 0;
+width:100%;
+font-size:18px;
+border:none;
+border-radius:10px;
+background:#3b82f6;
+color:white;
+}
+
+button:hover{
+background:#2563eb;
+}
+
+.card{
+background:#1e293b;
+padding:20px;
+border-radius:10px;
+margin-top:20px;
+}
+
+.choice{
+background:#334155;
+margin:8px 0;
+padding:12px;
+border-radius:8px;
+cursor:pointer;
+}
+
+.choice:hover{
+background:#475569;
+}
+
+.correct{
+background:#16a34a;
+}
+
+.wrong{
+background:#dc2626;
+}
+
+</style>
 </head>
 
 <body>
 
-<h1>CEN Bootcamp is coming 🚑</h1>
-<p>If you can see this page, GitHub Pages is working.</p>
+<header>
+🚑 CEN Bootcamp
+</header>
+
+<div class="container">
+
+<div id="menu">
+
+<button onclick="startPractice()">Practice Mode</button>
+
+<button onclick="startExam()">Full Exam (175 Q)</button>
+
+</div>
+
+<div id="quiz" style="display:none">
+
+<div class="card">
+
+<div id="question"></div>
+
+<div id="choices"></div>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+let questions=[
+{
+q:"Patient with chest pain, diaphoresis, and ST elevation. First medication?",
+choices:["Heparin","Aspirin","Morphine","Nitro"],
+answer:1,
+rationale:"Aspirin should be given immediately in suspected MI."
+},
+
+{
+q:"Child with barking cough and stridor. Diagnosis?",
+choices:["Asthma","Croup","Epiglottitis","Bronchiolitis"],
+answer:1,
+rationale:"Barking cough and stridor are classic for croup."
+},
+
+{
+q:"Pinpoint pupils and respiratory depression indicate?",
+choices:["Opioid overdose","Anticholinergic","Sympathomimetic","Cholinergic"],
+answer:0,
+rationale:"Pinpoint pupils and respiratory depression suggest opioid toxicity."
+}
+
+];
+
+let index=0;
+
+function startPractice(){
+document.getElementById("menu").style.display="none";
+document.getElementById("quiz").style.display="block";
+loadQuestion();
+}
+
+function startExam(){
+startPractice();
+}
+
+function loadQuestion(){
+
+let q=questions[index];
+
+document.getElementById("question").innerHTML="<h3>"+q.q+"</h3>";
+
+let html="";
+
+q.choices.forEach((choice,i)=>{
+
+html+=`<div class="choice" onclick="answer(${i})">${choice}</div>`;
+
+});
+
+document.getElementById("choices").innerHTML=html;
+
+}
+
+function answer(i){
+
+let q=questions[index];
+
+if(i==q.answer){
+alert("Correct\n\n"+q.rationale);
+}else{
+alert("Incorrect\n\n"+q.rationale);
+}
+
+index++;
+
+if(index>=questions.length){
+alert("Quiz Complete");
+location.reload();
+}else{
+loadQuestion();
+}
+
+}
+
+</script>
 
 </body>
 </html>
