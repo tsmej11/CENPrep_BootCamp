@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CEN Prep Bootcamp V4</title>
+<meta name="theme-color" content="#0b1020">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<style>
+:root {
+  --bg:#0b1020; --bg2:#111933; --panel:rgba(255,255,255,.06); --panel2:rgba(255,255,255,.04);
+  --line:rgba(255,255,255,.09); --text:#f5f7ff; --muted:#aab6d8; --accent:#7aa7ff; --accent2:#59d98e;
+  --warn:#ffd166; --bad:#ff6b6b; --shadow:0 18px 55px rgba(0,0,0,.30); --radius:20px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--text);
+background:radial-gradient(circle at top left, rgba(122,167,255,.23), transparent 32%), radial-gradient(circle at top right, rgba(89,217,142,.14), transparent 28%), linear-gradient(180deg,var(--bg),var(--bg2));}
+body{padding-bottom:30px}
+.topbar{position:sticky;top:0;z-index:50;backdrop-filter:blur(18px);background:rgba(11,16,32,.72);border-bottom:1px solid var(--line);padding:14px 14px 12px}
+.topbar-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{display:flex;gap:12px;align-items:center}
+.logo{width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,var(--accent),var(--accent2));box-shadow:var(--shadow);flex:0 0 auto}
+.title{font-size:16px;font-weight:800;letter-spacing:.2px}
+.subtitle{font-size:12px;color:var(--muted);margin-top:2px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font-size:12px;color:var(--muted);padding:8px 11px;border:1px solid var(--line);background:var(--panel2);border-radius:999px}
+.chip strong{color:var(--text)}
+.progress{margin-top:12px;height:8px;border-radius:999px;overflow:hidden;border:1px solid var(--line);background:var(--panel2)}
+.progress>div{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .25s ease}
+.wrap{max-width:1080px;margin:0 auto;padding:14px;display:grid;gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
+.hidden{display:none!important}
+h1,h2,h3,p{margin:0}
+.hero{display:grid;gap:12px}
+.hero h1{font-size:28px;line-height:1.05;letter-spacing:-.3px}
+.muted{color:var(--muted);line-height:1.45;font-size:13px}
+.grid{display:grid;gap:12px}
+.grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media (max-width:860px){.grid-4{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr} .hero h1{font-size:24px}}
+.kpi{padding:16px;border-radius:18px;border:1px solid var(--line);background:var(--panel2)}
+.kpi-label{font-size:12px;color:var(--muted)} .kpi-value{font-size:28px;font-weight:900;margin-top:6px;letter-spacing:-.4px}
+.menu-card{display:grid;gap:12px;padding:16px;border-radius:18px;border:1px solid var(--line);background:var(--panel2);min-height:180px}
+.menu-card h3{font-size:17px;line-height:1.15} .menu-card p{font-size:13px;color:var(--muted);line-height:1.4}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:var(--panel2);font-size:12px;width:max-content;color:var(--muted)}
+button,select{width:100%;appearance:none;border:none;border-radius:14px;padding:14px 16px;font-size:15px;font-weight:800;color:var(--text);background:rgba(255,255,255,.06);border:1px solid var(--line);cursor:pointer}
+button.primary{background:linear-gradient(180deg, rgba(122,167,255,.28), rgba(122,167,255,.14));border-color:rgba(122,167,255,.38)}
+button.good{background:linear-gradient(180deg, rgba(89,217,142,.24), rgba(89,217,142,.12));border-color:rgba(89,217,142,.35)}
+button.warn{background:linear-gradient(180deg, rgba(255,209,102,.24), rgba(255,209,102,.12));border-color:rgba(255,209,102,.38)}
+.section-title{font-size:20px;font-weight:800;margin-bottom:8px}
+.tiny{font-size:12px;color:var(--muted)}
+.question{font-size:22px;line-height:1.35} .choice{text-align:left;line-height:1.35} .choice.sel{outline:2px solid rgba(122,167,255,.55)}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.table{width:100%;border-collapse:collapse;font-size:13px} .table th,.table td{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+.ok{color:var(--accent2)} .bad{color:var(--bad)}
+.pillbar{display:flex;gap:8px;flex-wrap:wrap} .pill{font-size:12px;padding:8px 10px;border-radius:999px;border:1px solid var(--line);background:var(--panel2);color:var(--muted)} .pill strong{color:var(--text)}
+hr{border:none;border-top:1px solid var(--line);margin:12px 0}
+canvas{width:100%;max-width:220px;height:auto;display:block;margin:auto}
+.toast{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);background:#151f3e;border:1px solid var(--line);padding:10px 14px;border-radius:999px;box-shadow:var(--shadow);font-size:13px;opacity:0;pointer-events:none;transition:opacity .25s ease}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-row">
+    <div class="brand">
+      <div class="logo"></div>
+      <div>
+        <div class="title">🚑 CEN Prep Bootcamp V4</div>
+        <div class="subtitle">Dashboard • Practice • Exam • Drills • Review • Stats</div>
+      </div>
+    </div>
+    <div class="chips">
+      <div class="chip">Q <strong id="topQ">—</strong></div>
+      <div class="chip">Answered <strong id="topAnswered">0</strong></div>
+      <div class="chip">⏱ <strong id="topTimer">--:--</strong></div>
+    </div>
+  </div>
+  <div class="progress"><div id="topProgress"></div></div>
+</div>
+
+<main class="wrap">
+  <section class="card" id="homeView">
+    <div class="hero">
+      <div class="badge">Version 4 • full menu</div>
+      <h1>Now it actually looks like an app. 😌</h1>
+      <p class="muted">300-question bank aligned to major CEN blueprint domains, including environment/tox items like snakebite and envenomation, plus exam mode, drills, review, and stats.</p>
+    </div>
+    <hr>
+    <div class="grid grid-4">
+      <div class="kpi"><div class="kpi-label">Question Bank</div><div class="kpi-value" id="kpiBank">300</div></div>
+      <div class="kpi"><div class="kpi-label">Completed Sets</div><div class="kpi-value" id="kpiSets">0</div></div>
+      <div class="kpi"><div class="kpi-label">Best Score</div><div class="kpi-value" id="kpiBest">—</div></div>
+      <div class="kpi"><div class="kpi-label">Readiness</div><div class="kpi-value" id="kpiReady">—</div></div>
+    </div>
+    <hr>
+    <div class="grid grid-2">
+      <div class="menu-card">
+        <div class="badge">Resume</div>
+        <div><h3>Continue Study</h3><p>Jump back into your active session instantly.</p></div>
+        <button class="primary" id="continueBtn">Continue</button>
+      </div>
+      <div class="menu-card">
+        <div class="badge">Practice</div>
+        <div><h3>Quick Practice</h3><p>Build a short set fast.</p></div>
+        <button id="openPracticeBtn">Open Practice Builder</button>
+      </div>
+      <div class="menu-card">
+        <div class="badge">Exam</div>
+        <div><h3>Full CEN Exam</h3><p>Run the 175-question timed simulation.</p></div>
+        <button id="startExamBtn">Start 175Q Exam</button>
+      </div>
+      <div class="menu-card">
+        <div class="badge">Targeted</div>
+        <div><h3>Domain Drills</h3><p>Choose a domain and hammer it.</p></div>
+        <button id="openDrillBtn">Build Drill</button>
+      </div>
+      <div class="menu-card">
+        <div class="badge">Review</div>
+        <div><h3>Missed Questions</h3><p>Go directly at the questions you missed.</p></div>
+        <button id="missedBtn">Review Missed</button>
+      </div>
+      <div class="menu-card">
+        <div class="badge">Review</div>
+        <div><h3>Flagged Questions</h3><p>Return to the ones you marked as sketchy.</p></div>
+        <button id="flaggedBtn">Review Flagged</button>
+      </div>
+    </div>
+    <hr>
+    <div class="grid grid-2">
+      <div class="card" style="padding:14px">
+        <div class="section-title">Performance Snapshot</div>
+        <div class="tiny">Your running accuracy by domain</div>
+        <div id="snapshotTable" style="margin-top:10px"></div>
+      </div>
+      <div class="card" style="padding:14px">
+        <div class="section-title">Readiness Ring</div>
+        <div class="tiny">A rough visual estimate from your saved performance</div>
+        <canvas id="readinessCanvas" width="220" height="220"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <section class="card hidden" id="practiceView">
+    <div class="section-title">Quick Practice Builder</div>
+    <p class="muted">Build a practice block and go.</p>
+    <hr>
+    <div class="grid grid-3">
+      <div><div class="tiny">Question count</div><select id="practiceCount"><option>10</option><option>25</option><option>50</option><option>75</option><option>100</option></select></div>
+      <div><div class="tiny">Timer</div><select id="practiceTimer"><option value="0">Untimed</option><option value="20">20 min</option><option value="45">45 min</option><option value="90">90 min</option></select></div>
+      <div><div class="tiny">Question source</div><select id="practiceSource"><option value="all">Mixed bank</option><option value="fresh">Unseen first</option></select></div>
+    </div>
+    <hr>
+    <div class="grid grid-2">
+      <button class="primary" id="startPracticeBtn">Start Practice</button>
+      <button id="practiceBackBtn">Back</button>
+    </div>
+  </section>
+
+  <section class="card hidden" id="drillView">
+    <div class="section-title">Domain Drill Builder</div>
+    <p class="muted">Choose a domain and hammer it.</p>
+    <hr>
+    <div class="grid grid-3">
+      <div><div class="tiny">Domain</div><select id="drillDomain"></select></div>
+      <div><div class="tiny">Question count</div><select id="drillCount"><option>10</option><option>20</option><option>30</option><option>40</option></select></div>
+      <div><div class="tiny">Timer</div><select id="drillTimer"><option value="0">Untimed</option><option value="15">15 min</option><option value="30">30 min</option><option value="45">45 min</option></select></div>
+    </div>
+    <hr>
+    <div class="grid grid-2">
+      <button class="primary" id="startDrillBtn">Start Drill</button>
+      <button id="drillBackBtn">Back</button>
+    </div>
+  </section>
+
+  <section class="card hidden" id="quizView">
+    <div class="row">
+      <div class="badge" id="domainBadge">Domain</div>
+      <div class="badge" id="modeBadge">Mode</div>
+    </div>
+    <hr>
+    <div class="tiny" id="qMeta">Question</div>
+    <div class="question" id="qText"></div>
+    <div class="grid" id="choices" style="margin-top:14px"></div>
+    <hr>
+    <div class="grid grid-2">
+      <button id="prevBtn">⬅ Prev</button>
+      <button class="primary" id="nextBtn">Next ➡</button>
+    </div>
+    <div class="grid grid-2">
+      <button class="warn" id="flagBtn">🚩 Flag</button>
+      <button class="good" id="finishBtn">Finish ✅</button>
+    </div>
+  </section>
+
+  <section class="card hidden" id="resultsView">
+    <div class="section-title">Results</div>
+    <div class="pillbar">
+      <div class="pill">Score <strong id="scorePct">0%</strong></div>
+      <div class="pill">Correct <strong id="scoreRaw">0/0</strong></div>
+      <div class="pill">Time <strong id="timeUsed">00:00</strong></div>
+    </div>
+    <hr>
+    <div class="tiny">Domain breakdown</div>
+    <div id="domainTable" style="margin-top:8px"></div>
+    <hr>
+    <div class="grid grid-2">
+      <button class="primary" id="reviewMissedBtn">Review Missed</button>
+      <button id="reviewAllBtn">Review All</button>
+    </div>
+    <div id="reviewBlock" style="margin-top:12px"></div>
+    <hr>
+    <div class="grid grid-2">
+      <button id="backHomeBtn">Back to Dashboard</button>
+      <button id="clearSessionBtn">Clear Session</button>
+    </div>
+  </section>
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const APP_KEY = "cen_bootcamp_v4_state";
+const BANK = [{"id": 1, "domain": "Cardiovascular", "q": "Pulseless ventricular fibrillation is present. First intervention? What is the priority action?", "o": ["Amiodarone", "Defibrillation", "Epinephrine", "Atropine"], "a": "B", "r": "VF is a shockable rhythm requiring immediate defibrillation."}, {"id": 2, "domain": "Respiratory", "q": "Pulmonary edema with severe dyspnea and hypertension. Best immediate support? Choose the best answer.", "o": ["Large fluid bolus", "CPAP/BiPAP", "Oral diuretic", "Chest PT"], "a": "B", "r": "Positive pressure improves oxygenation and reduces preload."}, {"id": 3, "domain": "Neurological", "q": "Bradycardia, hypertension, and irregular respirations indicate: Which response is most appropriate?", "o": ["Beck triad", "Cushing triad", "Trousseau sign", "Charcot triad"], "a": "B", "r": "Cushing triad suggests increased ICP."}, {"id": 4, "domain": "Gastrointestinal", "q": "Severe flank pain with hematuria and vomiting most likely indicates: What is the priority action?", "o": ["Pyelonephritis", "Kidney stone", "AAA", "Pancreatitis"], "a": "B", "r": "Classic nephrolithiasis presentation."}, {"id": 5, "domain": "GU/GYN/OB", "q": "Eclampsia with seizure and severe hypertension. First-line medication? Choose the best answer.", "o": ["Diazepam", "Magnesium sulfate", "Heparin", "Naloxone"], "a": "B", "r": "Magnesium is first-line for eclampsia."}, {"id": 6, "domain": "Mental Health", "q": "Initial ED approach to psychosis should include: Which response is most appropriate?", "o": ["Assume psychiatric cause", "Screen for medical causes", "Immediate discharge", "Long-acting antipsychotic"], "a": "B", "r": "Rule out medical and toxic causes first."}, {"id": 7, "domain": "Medical", "q": "First medication for anaphylaxis? What is the priority action?", "o": ["Diphenhydramine", "Epinephrine IM", "Steroids", "Albuterol"], "a": "B", "r": "IM epinephrine is the first-line treatment."}, {"id": 8, "domain": "MSK/Wound", "q": "Severe pain out of proportion after tib-fib fracture suggests:", "o": ["DVT", "Compartment syndrome", "Cellulitis", "Sprain"], "a": "B", "r": "Pain out of proportion suggests compartment syndrome."}, {"id": 9, "domain": "HEENT", "q": "Nasal trauma with septal hematoma risks: What is the priority action?", "o": ["Cosmetic issue only", "Cartilage necrosis", "Hearing loss", "Stroke"], "a": "B", "r": "Septal hematoma can cause cartilage necrosis."}, {"id": 10, "domain": "Environmental/Toxicology", "q": "Agitation, diaphoresis, hypertension, tachycardia, dilated pupils suggest: What is the priority action?", "o": ["Cholinergic", "Sympathomimetic", "Opioid", "Sedative"], "a": "B", "r": "This is a sympathomimetic toxidrome."}, {"id": 11, "domain": "Professional", "q": "Needle-stick from known HIV-positive source. First priority? What is the priority action?", "o": ["Wait for symptoms", "Report and begin protocol/PEP ASAP", "Tetanus only", "Ignore"], "a": "B", "r": "Immediate reporting and post-exposure protocol are required."}, {"id": 12, "domain": "Cardiovascular", "q": "Hyperkalemia with peaked T waves. First medication to stabilize the myocardium? What is the priority action?", "o": ["Insulin with dextrose", "Calcium gluconate", "Kayexalate", "Albuterol"], "a": "B", "r": "Calcium stabilizes the myocardium before shifting potassium."}, {"id": 13, "domain": "Respiratory", "q": "Tension pneumothorax suspected. Immediate treatment? What is the priority action?", "o": ["Chest x-ray", "Needle decompression", "CT scan", "BiPAP"], "a": "B", "r": "Treat immediately without waiting for imaging."}, {"id": 14, "domain": "Neurological", "q": "Worst headache of life suggests: What is the priority action?", "o": ["Migraine", "Subarachnoid hemorrhage", "Sinusitis", "Tension headache"], "a": "B", "r": "Thunderclap headache suggests SAH."}, {"id": 15, "domain": "Gastrointestinal", "q": "Severe flank pain with hematuria and vomiting most likely indicates: Which response is most appropriate?", "o": ["Pyelonephritis", "Kidney stone", "AAA", "Pancreatitis"], "a": "B", "r": "Classic nephrolithiasis presentation."}, {"id": 16, "domain": "GU/GYN/OB", "q": "Eclampsia with seizure and severe hypertension. First-line medication?", "o": ["Diazepam", "Magnesium sulfate", "Heparin", "Naloxone"], "a": "B", "r": "Magnesium is first-line for eclampsia."}, {"id": 17, "domain": "Mental Health", "q": "Initial ED approach to psychosis should include: Which response is most appropriate?", "o": ["Assume psychiatric cause", "Screen for medical causes", "Immediate discharge", "Long-acting antipsychotic"], "a": "B", "r": "Rule out medical and toxic causes first."}, {"id": 18, "domain": "Medical", "q": "Sepsis with hypotension and lactate 5.1. Priority intervention? Which response is most appropriate?", "o": ["Broad-spectrum antibiotics", "30 mL/kg IV crystalloid bolus", "Vasopressors", "Blood cultures first"], "a": "B", "r": "Initial fluid resuscitation is first."}, {"id": 19, "domain": "MSK/Wound", "q": "Pelvic fracture with hypotension. Most concerning complication? Choose the best answer.", "o": ["Fat embolism", "Internal hemorrhage", "AKI", "PE"], "a": "B", "r": "Pelvic fractures can cause massive hemorrhage."}, {"id": 20, "domain": "HEENT", "q": "Chemical eye burn priority action? Choose the best answer.", "o": ["Patch and wait", "Immediate copious irrigation", "Antibiotics first", "CT first"], "a": "B", "r": "Immediate irrigation is the priority."}, {"id": 21, "domain": "Environmental/Toxicology", "q": "Bat exposure in a sleeping child should prompt: What is the priority action?", "o": ["Nothing if no bite is seen", "Rabies post-exposure evaluation", "Antibiotics only", "Tetanus only"], "a": "B", "r": "Bat exposures can be occult and require rabies evaluation."}, {"id": 22, "domain": "Professional", "q": "Unconscious adult needing life-saving emergency treatment is treated under: What is the priority action?", "o": ["Written informed consent only", "Implied consent", "No consent", "Family-only consent"], "a": "B", "r": "Implied consent applies in emergencies."}, {"id": 23, "domain": "Cardiovascular", "q": "Hyperkalemia with peaked T waves. First medication to stabilize the myocardium? Which response is most appropriate?", "o": ["Insulin with dextrose", "Calcium gluconate", "Kayexalate", "Albuterol"], "a": "B", "r": "Calcium stabilizes the myocardium before shifting potassium."}, {"id": 24, "domain": "Respiratory", "q": "Child with drooling, tripod position, and fever most likely has:", "o": ["Croup", "Epiglottitis", "Asthma", "Bronchiolitis"], "a": "B", "r": "This presentation strongly suggests epiglottitis."}, {"id": 25, "domain": "Neurological", "q": "Bradycardia, hypertension, and irregular respirations indicate: Which response is most appropriate?", "o": ["Beck triad", "Cushing triad", "Trousseau sign", "Charcot triad"], "a": "B", "r": "Cushing triad suggests increased ICP."}, {"id": 26, "domain": "Gastrointestinal", "q": "Severe flank pain with hematuria and vomiting most likely indicates: What is the priority action?", "o": ["Pyelonephritis", "Kidney stone", "AAA", "Pancreatitis"], "a": "B", "r": "Classic nephrolithiasis presentation."}, {"id": 27, "domain": "GU/GYN/OB", "q": "Earliest sign of postpartum hemorrhagic shock: Which response is most appropriate?", "o": ["Hypotension", "Tachycardia", "Bradycardia", "Cyanosis"], "a": "B", "r": "Tachycardia is often earliest."}, {"id": 28, "domain": "Mental Health", "q": "Alcohol withdrawal with agitation and hallucinations. Best medication? Which response is most appropriate?", "o": ["Haloperidol only", "Benzodiazepines", "Naloxone", "Beta blocker"], "a": "B", "r": "Benzodiazepines are first-line."}, {"id": 29, "domain": "Medical", "q": "DKA with potassium 2.8. Priority action?", "o": ["Start insulin", "Replace potassium", "Give bicarbonate", "Start dextrose"], "a": "B", "r": "Potassium must be replaced before insulin."}, {"id": 30, "domain": "MSK/Wound", "q": "Open fracture priority intervention? Choose the best answer.", "o": ["Ice only", "Antibiotics + tetanus + sterile cover", "Massage", "Immediate discharge"], "a": "B", "r": "Open fractures need prompt antibiotics, tetanus, and sterile covering."}, {"id": 31, "domain": "HEENT", "q": "Nasal trauma with septal hematoma risks: Choose the best answer.", "o": ["Cosmetic issue only", "Cartilage necrosis", "Hearing loss", "Stroke"], "a": "B", "r": "Septal hematoma can cause cartilage necrosis."}, {"id": 32, "domain": "Environmental/Toxicology", "q": "House fire, headache, nausea, cherry-red skin, SpO2 100%. Best treatment?", "o": ["Activated charcoal", "100% oxygen via nonrebreather", "Albuterol", "Intubation"], "a": "B", "r": "Carbon monoxide poisoning may show a normal pulse ox."}, {"id": 33, "domain": "Professional", "q": "Crushing chest pain and diaphoresis at triage should be assigned: Choose the best answer.", "o": ["Non-urgent", "Emergent/immediate", "Minor", "Delayed"], "a": "B", "r": "Possible ACS is emergent."}, {"id": 34, "domain": "Cardiovascular", "q": "Unstable SVT with hypotension and altered mental status. Best next step?", "o": ["Adenosine", "Vagal maneuvers", "Synchronized cardioversion", "Diltiazem"], "a": "C", "r": "Unstable tachyarrhythmias require synchronized cardioversion."}, {"id": 35, "domain": "Respiratory", "q": "Child with drooling, tripod position, and fever most likely has: Which response is most appropriate?", "o": ["Croup", "Epiglottitis", "Asthma", "Bronchiolitis"], "a": "B", "r": "This presentation strongly suggests epiglottitis."}, {"id": 36, "domain": "Neurological", "q": "Lucid interval followed by decline after head injury suggests: Choose the best answer.", "o": ["Epidural hematoma", "Subdural hematoma", "Concussion", "SAH"], "a": "A", "r": "Classic epidural hematoma pattern."}, {"id": 37, "domain": "Gastrointestinal", "q": "Pain out of proportion to exam with AF history suggests: Which response is most appropriate?", "o": ["Pancreatitis", "Mesenteric ischemia", "Appendicitis", "SBO"], "a": "B", "r": "Classic mesenteric ischemia."}, {"id": 38, "domain": "GU/GYN/OB", "q": "Earliest sign of postpartum hemorrhagic shock: Choose the best answer.", "o": ["Hypotension", "Tachycardia", "Bradycardia", "Cyanosis"], "a": "B", "r": "Tachycardia is often earliest."}, {"id": 39, "domain": "Mental Health", "q": "Initial ED approach to psychosis should include:", "o": ["Assume psychiatric cause", "Screen for medical causes", "Immediate discharge", "Long-acting antipsychotic"], "a": "B", "r": "Rule out medical and toxic causes first."}, {"id": 40, "domain": "Medical", "q": "First medication for anaphylaxis? What is the priority action?", "o": ["Diphenhydramine", "Epinephrine IM", "Steroids", "Albuterol"], "a": "B", "r": "IM epinephrine is the first-line treatment."}, {"id": 41, "domain": "MSK/Wound", "q": "Open fracture priority intervention? Choose the best answer.", "o": ["Ice only", "Antibiotics + tetanus + sterile cover", "Massage", "Immediate discharge"], "a": "B", "r": "Open fractures need prompt antibiotics, tetanus, and sterile covering."}, {"id": 42, "domain": "HEENT", "q": "Chemical eye burn priority action? What is the priority action?", "o": ["Patch and wait", "Immediate copious irrigation", "Antibiotics first", "CT first"], "a": "B", "r": "Immediate irrigation is the priority."}, {"id": 43, "domain": "Environmental/Toxicology", "q": "House fire, headache, nausea, cherry-red skin, SpO2 100%. Best treatment? Choose the best answer.", "o": ["Activated charcoal", "100% oxygen via nonrebreather", "Albuterol", "Intubation"], "a": "B", "r": "Carbon monoxide poisoning may show a normal pulse ox."}, {"id": 44, "domain": "Professional", "q": "Needle-stick from known HIV-positive source. First priority? What is the priority action?", "o": ["Wait for symptoms", "Report and begin protocol/PEP ASAP", "Tetanus only", "Ignore"], "a": "B", "r": "Immediate reporting and post-exposure protocol are required."}, {"id": 45, "domain": "Cardiovascular", "q": "Inferior STEMI with hypotension. Which medication should be avoided initially? Which response is most appropriate?", "o": ["Aspirin", "Nitroglycerin", "Heparin", "Morphine"], "a": "B", "r": "Nitrates may worsen hypotension, especially with right ventricular involvement."}, {"id": 46, "domain": "Respiratory", "q": "Child with drooling, tripod position, and fever most likely has: Choose the best answer.", "o": ["Croup", "Epiglottitis", "Asthma", "Bronchiolitis"], "a": "B", "r": "This presentation strongly suggests epiglottitis."}, {"id": 47, "domain": "Neurological", "q": "Worst headache of life suggests: Which response is most appropriate?", "o": ["Migraine", "Subarachnoid hemorrhage", "Sinusitis", "Tension headache"], "a": "B", "r": "Thunderclap headache suggests SAH."}, {"id": 48, "domain": "Gastrointestinal", "q": "Severe flank pain with hematuria and vomiting most likely indicates: Choose the best answer.", "o": ["Pyelonephritis", "Kidney stone", "AAA", "Pancreatitis"], "a": "B", "r": "Classic nephrolithiasis presentation."}, {"id": 49, "domain": "GU/GYN/OB", "q": "Earliest sign of postpartum hemorrhagic shock:", "o": ["Hypotension", "Tachycardia", "Bradycardia", "Cyanosis"], "a": "B", "r": "Tachycardia is often earliest."}, {"id": 50, "domain": "Mental Health", "q": "Alcohol withdrawal with agitation and hallucinations. Best medication? Choose the best answer.", "o": ["Haloperidol only", "Benzodiazepines", "Naloxone", "Beta blocker"], "a": "B", "r": "Benzodiazepines are first-line."}, {"id": 51, "domain": "Medical", "q": "Sepsis with hypotension and lactate 5.1. Priority intervention? Choose the best answer.", "o": ["Broad-spectrum antibiotics", "30 mL/kg IV crystalloid bolus", "Vasopressors", "Blood cultures first"], "a": "B", "r": "Initial fluid resuscitation is first."}, {"id": 52, "domain": "MSK/Wound", "q": "Adult burn to entire right arm plus anterior torso = what TBSA?", "o": ["18%", "27%", "36%", "45%"], "a": "B", "r": "Right arm 9% + anterior torso 18% = 27%."}, {"id": 53, "domain": "HEENT", "q": "Penetrating eye injury priority action?", "o": ["Remove object", "Rigid shield, no pressure", "Tonometry", "Irrigate vigorously"], "a": "B", "r": "Protect the globe and avoid pressure."}, {"id": 54, "domain": "Environmental/Toxicology", "q": "House fire, headache, nausea, cherry-red skin, SpO2 100%. Best treatment? Choose the best answer.", "o": ["Activated charcoal", "100% oxygen via nonrebreather", "Albuterol", "Intubation"], "a": "B", "r": "Carbon monoxide poisoning may show a normal pulse ox."}, {"id": 55, "domain": "Professional", "q": "Unconscious adult needing life-saving emergency treatment is treated under:", "o": ["Written informed consent only", "Implied consent", "No consent", "Family-only consent"], "a": "B", "r": "Implied consent applies in emergencies."}, {"id": 56, "domain": "Cardiovascular", "q": "Unstable SVT with hypotension and altered mental status. Best next step? Choose the best answer.", "o": ["Adenosine", "Vagal maneuvers", "Synchronized cardioversion", "Diltiazem"], "a": "C", "r": "Unstable tachyarrhythmias require synchronized cardioversion."}, {"id": 57, "domain": "Respiratory", "q": "Child with drooling, tripod position, and fever most likely has: Choose the best answer.", "o": ["Croup", "Epiglottitis", "Asthma", "Bronchiolitis"], "a": "B", "r": "This presentation strongly suggests epiglottitis."}, {"id": 58, "domain": "Neurological", "q": "Worst headache of life suggests: Choose the best answer.", "o": ["Migraine", "Subarachnoid hemorrhage", "Sinusitis", "Tension headache"], "a": "B", "r": "Thunderclap headache suggests SAH."}, {"id": 59, "domain": "Gastrointestinal", "q": "RUQ pain, fever, and positive Murphy sign suggest: Choose the best answer.", "o": ["Appendicitis", "Cholecystitis", "Diverticulitis", "Pancreatitis"], "a": "B", "r": "Murphy sign indicates acute cholecystitis."}, {"id": 60, "domain": "GU/GYN/OB", "q": "Eclampsia with seizure and severe hypertension. First-line medication? What is the priority action?", "o": ["Diazepam", "Magnesium sulfate", "Heparin", "Naloxone"], "a": "B", "r": "Magnesium is first-line for eclampsia."}, {"id": 61, "domain": "Mental Health", "q": "Combative stimulant-intoxicated patient. Best initial med class? Choose the best answer.", "o": ["Opioid antagonist", "Benzodiazepines", "Antibiotics", "Diuretics"], "a": "B", "r": "Benzodiazepines are first-line for stimulant-related agitation."}, {"id": 62, "domain": "Medical", "q": "First medication for anaphylaxis?", "o": ["Diphenhydramine", "Epinephrine IM", "Steroids", "Albuterol"], "a": "B", "r": "IM epinephrine is the first-line treatment."}, {"id": 63, "domain": "MSK/Wound", "q": "Open fracture priority intervention? Which response is most appropriate?", "o": ["Ice only", "Antibiotics + tetanus + sterile cover", "Massage", "Immediate discharge"], "a": "B", "r": "Open fractures need prompt antibiotics, tetanus, and sterile covering."}, {"id": 64, "domain": "HEENT", "q": "Chemical eye burn priority action? Choose the best answer.", "o": ["Patch and wait", "Immediate copious irrigation", "Antibiotics first", "CT first"], "a": "B", "r": "Immediate irrigation is the priority."}, {"id": 65, "domain": "Environmental/Toxicology", "q": "Salivation, diarrhea, emesis, wheezing, bradycardia suggest:", "o": ["Sympathomimetic poisoning", "Organophosphate poisoning", "Anticholinergic overdose", "Opioid overdose"], "a": "B", "r": "This is a cholinergic toxidrome."}, {"id": 66, "domain": "Professional", "q": "Unconscious adult needing life-saving emergency treatment is treated under: Choose the best answer.", "o": ["Written informed consent only", "Implied consent", "No consent", "Family-only consent"], "a": "B", "r": "Implied consent applies in emergencies."}, {"id": 67, "domain": "Cardiovascular", "q": "Inferior STEMI with hypotension. Which medication should be avoided initially? What is the priority action?", "o": ["Aspirin", "Nitroglycerin", "Heparin", "Morphine"], "a": "B", "r": "Nitrates may worsen hypotension, especially with right ventricular involvement."}, {"id": 68, "domain": "Respiratory", "q": "Tension pneumothorax suspected. Immediate treatment?", "o": ["Chest x-ray", "Needle decompression", "CT scan", "BiPAP"], "a": "B", "r": "Treat immediately without waiting for imaging."}, {"id": 69, "domain": "Neurological", "q": "Bradycardia, hypertension, and irregular respirations indicate:", "o": ["Beck triad", "Cushing triad", "Trousseau sign", "Charcot triad"], "a": "B", "r": "Cushing triad suggests increased ICP."}, {"id": 70, "domain": "Gastrointestinal", "q": "Pain out of proportion to exam with AF history suggests: Which response is most appropriate?", "o": ["Pancreatitis", "Mesenteric ischemia", "Appendicitis", "SBO"], "a": "B", "r": "Classic mesenteric ischemia."}, {"id": 71, "domain": "GU/GYN/OB", "q": "Eclampsia with seizure and severe hypertension. First-line medication? Choose the best answer.", "o": ["Diazepam", "Magnesium sulfate", "Heparin", "Naloxone"], "a": "B", "r": "Magnesium is first-line for eclampsia."}, {"id": 72, "domain": "Mental Health", "q": "Alcohol withdrawal with agitation and hallucinations. Best medication? Choose the best answer.", "o": ["Haloperidol only", "Benzodiazepines", "Naloxone", "Beta blocker"], "a": "B", "r": "Benzodiazepines are first-line."}, {"id": 73, "domain": "Medical", "q": "Opioid overdose antidote? Which response is most appropriate?", "o": ["Flumazenil", "Naloxone", "Atropine", "Bicarbonate"], "a": "B", "r": "Naloxone reverses opioid respiratory depression."}, {"id": 74, "domain": "MSK/Wound", "q": "Severe pain out of proportion after tib-fib fracture suggests:", "o": ["DVT", "Compartment syndrome", "Cellulitis", "Sprain"], "a": "B", "r": "Pain out of proportion suggests compartment syndrome."}, {"id": 75, "domain": "HEENT", "q": "First intervention for epistaxis? Which response is most appropriate?", "o": ["Lean back", "Lean forward and pinch soft nose", "Immediate surgery", "Give aspirin"], "a": "B", "r": "Direct pressure while leaning forward is first-line."}, {"id": 76, "domain": "Environmental/Toxicology", "q": "Agitation, diaphoresis, hypertension, tachycardia, dilated pupils suggest: Which response is most appropriate?", "o": ["Cholinergic", "Sympathomimetic", "Opioid", "Sedative"], "a": "B", "r": "This is a sympathomimetic toxidrome."}, {"id": 77, "domain": "Professional", "q": "Crushing chest pain and diaphoresis at triage should be assigned: Choose the best answer.", "o": ["Non-urgent", "Emergent/immediate", "Minor", "Delayed"], "a": "B", "r": "Possible ACS is emergent."}, {"id": 78, "domain": "Cardiovascular", "q": "Unstable SVT with hypotension and altered mental status. Best next step? Which response is most appropriate?", "o": ["Adenosine", "Vagal maneuvers", "Synchronized cardioversion", "Diltiazem"], "a": "C", "r": "Unstable tachyarrhythmias require synchronized cardioversion."}, {"id": 79, "domain": "Respiratory", "q": "Child with drooling, tripod position, and fever most likely has: Which response is most appropriate?", "o": ["Croup", "Epiglottitis", "Asthma", "Bronchiolitis"], "a": "B", "r": "This presentation strongly suggests epiglottitis."}, {"id": 80, "domain": "Neurological", "q": "Worst headache of life suggests: What is the priority action?", "o": ["Migraine", "Subarachnoid hemorrhage", "Sinusitis", "Tension headache"], "a": "B", "r": "Thunderclap headache suggests SAH."}, {"id": 81, "domain": "Gastrointestinal", "q": "Severe flank pain with hematuria and vomiting most likely indicates: What is the priority action?", "o": ["Pyelonephritis", "Kidney stone", "AAA", "Pancreatitis"], "a": "B", "r": "Classic nephrolithiasis presentation."}, {"id": 82, "domain": "GU/GYN/OB", "q": "Earliest sign of postpartum hemorrhagic shock:", "o": ["Hypotension", "Tachycardia", "Bradycardia", "Cyanosis"], "a": "B", "r": "Tachycardia is often earliest."}, {"id": 83, "domain": "Mental Health", "q": "Initial ED approach to psychosis should include: Choose the best answer.", "o": ["Assume psychiatric cause", "Screen for medical causes", "Immediate discharge", "Long-acting antipsychotic"], "a": "B", "r": "Rule out medical and toxic causes first."}, {"id": 84, "domain": "Medical", "q": "First medication for anaphylaxis? What is the priority action?", "o": ["Diphenhydramine", "Epinephrine IM", "Steroids", "Albuterol"], "a": "B", "r": "IM epinephrine is the first-line treatment."}, {"id": 85, "domain": "MSK/Wound", "q": "Adult burn to entire right arm plus anterior torso = what TBSA? What is the priority action?", "o": ["18%", "27%", "36%", "45%"], "a": "B", "r": "Right arm 9% + anterior torso 18% = 27%."}, {"id": 86, "domain": "HEENT", "q": "Penetrating eye injury priority action?", "o": ["Remove object", "Rigid shield, no pressure", "Tonometry", "Irrigate vigorously"], "a": "B", "r": "Protect the globe and avoid pressure."}, {"id": 87, "domain": "Environmental/Toxicology", "q": "Agitation, diaphoresis, hypertension, tachycardia, dilated pupils suggest: Which response is most appropriate?", "o": ["Cholinergic", "Sympathomimetic", "Opioid", "Sedative"], "a": "B", "r": "This is a sympathomimetic toxidrome."}, {"id": 88, "domain": "Professional", "q": "Most protective ED documentation style is: Which response is most appropriate?", "o": ["Subjective opinions", "Objective facts, times, quotes, actions, reassessments", "Minimal charting", "Copy-paste prior note"], "a": "B", "r": "Objective, time-stamped charting is most defensible."}, {"id": 89, "domain": "Cardiovascular", "q": "Unstable SVT with hypotension and altered mental status. Best next step? What is the priority action?", "o": ["Adenosine", "Vagal maneuvers", "Synchronized cardioversion", "Diltiazem"], "a": "C", "r": "Unstable tachyarrhythmias require synchronized cardioversion."}, {"id": 90, "domain": "Respiratory", "q": "Child with drooling, tripod position, and fever most likely has: Which response is most appropriate?", "o": ["Croup", "Epiglottitis", "Asthma", "Bronchiolitis"], "a": "B", "r": "This presentation strongly suggests epiglottitis."}, {"id": 91, "domain": "Neurological", "q": "Lucid interval followed by decline after head injury suggests: Choose the best answer.", "o": ["Epidural hematoma", "Subdural hematoma", "Concussion", "SAH"], "a": "A", "r": "Classic epidural hematoma pattern."}, {"id": 92, "domain": "Gastrointestinal", "q": "RUQ pain, fever, and positive Murphy sign suggest: Choose the best answer.", "o": ["Appendicitis", "Cholecystitis", "Diverticulitis", "Pancreatitis"], "a": "B", "r": "Murphy sign indicates acute cholecystitis."}, {"id": 93, "domain": "GU/GYN/OB", "q": "Eclampsia with seizure and severe hypertension. First-line medication? Choose the best answer.", "o": ["Diazepam", "Magnesium sulfate", "Heparin", "Naloxone"], "a": "B", "r": "Magnesium is first-line for eclampsia."}, {"id": 94, "domain": "Mental Health", "q": "High-risk suicide patient in ED. Best safety action?", "o": ["Routine checks", "1:1 observation and remove hazards", "Discharge with family", "PRN meds only"], "a": "B", "r": "Continuous observation and environmental safety are standard."}, {"id": 95, "domain": "Medical", "q": "First medication for anaphylaxis?", "o": ["Diphenhydramine", "Epinephrine IM", "Steroids", "Albuterol"], "a": "B", "r": "IM epinephrine is the first-line treatment."}, {"id": 96, "domain": "MSK/Wound", "q": "Open fracture priority intervention?", "o": ["Ice only", "Antibiotics + tetanus + sterile cover", "Massage", "Immediate discharge"], "a": "B", "r": "Open fractures need prompt antibiotics, tetanus, and sterile covering."}, {"id": 97, "domain": "HEENT", "q": "Nasal trauma with septal hematoma risks: Which response is most appropriate?", "o": ["Cosmetic issue only", "Cartilage necrosis", "Hearing loss", "Stroke"], "a": "B", "r": "Septal hematoma can cause cartilage necrosis."}, {"id": 98, "domain": "Environmental/Toxicology", "q": "Bat exposure in a sleeping child should prompt: What is the priority action?", "o": ["Nothing if no bite is seen", "Rabies post-exposure evaluation", "Antibiotics only", "Tetanus only"], "a": "B", "r": "Bat exposures can be occult and require rabies evaluation."}, {"id": 99, "domain": "Professional", "q": "Unconscious adult needing life-saving emergency treatment is treated under: Choose the best answer.", "o": ["Written informed consent only", "Implied consent", "No consent", "Family-only consent"], "a": "B", "r": "Implied consent applies in emergencies."}, {"id": 100, "domain": "Cardiovascular", "q": "Hyperkalemia with peaked T waves. First medication to stabilize the myocardium? What is the priority action?", "o": ["Insulin with dextrose", "Calcium gluconate", "Kayexalate", "Albuterol"], "a": "B", "r": "Calcium stabilizes the myocardium before shifting potassium."}, {"id": 101, "domain": "Respiratory", "q": "Child with barking cough and stridor at rest. First-line medication? Which response is most appropriate?", "o": ["Albuterol", "Dexamethasone", "Ceftriaxone", "Furosemide"], "a": "B", "r": "Dexamethasone is first-line for croup."}, {"id": 102, "domain": "Neurological", "q": "First imaging test for suspected stroke?", "o": ["MRI", "CT head without contrast", "CT with contrast", "LP"], "a": "B", "r": "CT without contrast rules out hemorrhage first."}, {"id": 103, "domain": "Gastrointestinal", "q": "Severe flank pain with hematuria and vomiting most likely indicates: Choose the best answer.", "o": ["Pyelonephritis", "Kidney stone", "AAA", "Pancreatitis"], "a": "B", "r": "Classic nephrolithiasis presentation."}, {"id": 104, "domain": "GU/GYN/OB", "q": "Positive pregnancy test, pelvic pain, and no IUP seen yet. Next step? Choose the best answer.", "o": ["Discharge", "TVUS + quantitative hCG", "Immediate methotrexate", "D&C"], "a": "B", "r": "Evaluate for ectopic pregnancy with TVUS and serial hCG."}, {"id": 105, "domain": "Mental Health", "q": "Alcohol withdrawal with agitation and hallucinations. Best medication? What is the priority action?", "o": ["Haloperidol only", "Benzodiazepines", "Naloxone", "Beta blocker"], "a": "B", "r": "Benzodiazepines are first-line."}, {"id": 106, "domain": "Medical", "q": "DKA with potassium 2.8. Priority action? What is the priority action?", "o": ["Start insulin", "Replace potassium", "Give bicarbonate", "Start dextrose"], "a": "B", "r": "Potassium must be replaced before insulin."}, {"id": 107, "domain": "MSK/Wound", "q": "Adult burn to entire right arm plus anterior torso = what TBSA? Choose the best answer.", "o": ["18%", "27%", "36%", "45%"], "a": "B", "r": "Right arm 9% + anterior torso 18% = 27%."}, {"id": 108, "domain": "HEENT", "q": "Chemical eye burn priority action? Which response is most appropriate?", "o": ["Patch and wait", "Immediate copious irrigation", "Antibiotics first", "CT first"], "a": "B", "r": "Immediate irrigation is the priority."}, {"id": 109, "domain": "Environmental/Toxicology", "q": "Pit viper snakebite with progressive swelling. Priority treatment? Which response is most appropriate?", "o": ["Ice and elevation only", "Antivenom evaluation and supportive care", "Incision and suction", "Prophylactic antibiotics only"], "a": "B", "r": "Progressive envenomation requires antivenom evaluation and supportive management."}, {"id": 110, "domain": "Professional", "q": "Needle-stick from known HIV-positive source. First priority? What is the priority action?", "o": ["Wait for symptoms", "Report and begin protocol/PEP ASAP", "Tetanus only", "Ignore"], "a": "B", "r": "Immediate reporting and post-exposure protocol are required."}, {"id": 111, "domain": "Cardiovascular", "q": "Inferior STEMI with hypotension. Which medication should be avoided initially? Which response is most appropriate?", "o": ["Aspirin", "Nitroglycerin", "Heparin", "Morphine"], "a": "B", "r": "Nitrates may worsen hypotension, especially with right ventricular involvement."}, {"id": 112, "domain": "Respiratory", "q": "Child with drooling, tripod position, and fever most likely has: What is the priority action?", "o": ["Croup", "Epiglottitis", "Asthma", "Bronchiolitis"], "a": "B", "r": "This presentation strongly suggests epiglottitis."}, {"id": 113, "domain": "Neurological", "q": "First imaging test for suspected stroke? Choose the best answer.", "o": ["MRI", "CT head without contrast", "CT with contrast", "LP"], "a": "B", "r": "CT without contrast rules out hemorrhage first."}, {"id": 114, "domain": "Gastrointestinal", "q": "RUQ pain, fever, and positive Murphy sign suggest:", "o": ["Appendicitis", "Cholecystitis", "Diverticulitis", "Pancreatitis"], "a": "B", "r": "Murphy sign indicates acute cholecystitis."}, {"id": 115, "domain": "GU/GYN/OB", "q": "Pregnant trauma patient beyond 20 weeks should be positioned: Choose the best answer.", "o": ["Supine", "Left lateral tilt", "Trendelenburg", "Prone"], "a": "B", "r": "Left tilt reduces aortocaval compression."}, {"id": 116, "domain": "Mental Health", "q": "High-risk suicide patient in ED. Best safety action?", "o": ["Routine checks", "1:1 observation and remove hazards", "Discharge with family", "PRN meds only"], "a": "B", "r": "Continuous observation and environmental safety are standard."}, {"id": 117, "domain": "Medical", "q": "Sepsis with hypotension and lactate 5.1. Priority intervention? Which response is most appropriate?", "o": ["Broad-spectrum antibiotics", "30 mL/kg IV crystalloid bolus", "Vasopressors", "Blood cultures first"], "a": "B", "r": "Initial fluid resuscitation is first."}, {"id": 118, "domain": "MSK/Wound", "q": "Severe pain out of proportion after tib-fib fracture suggests: Choose the best answer.", "o": ["DVT", "Compartment syndrome", "Cellulitis", "Sprain"], "a": "B", "r": "Pain out of proportion suggests compartment syndrome."}, {"id": 119, "domain": "HEENT", "q": "Chemical eye burn priority action? What is the priority action?", "o": ["Patch and wait", "Immediate copious irrigation", "Antibiotics first", "CT first"], "a": "B", "r": "Immediate irrigation is the priority."}, {"id": 120, "domain": "Environmental/Toxicology", "q": "House fire, headache, nausea, cherry-red skin, SpO2 100%. Best treatment? Which response is most appropriate?", "o": ["Activated charcoal", "100% oxygen via nonrebreather", "Albuterol", "Intubation"], "a": "B", "r": "Carbon monoxide poisoning may show a normal pulse ox."}, {"id": 121, "domain": "Professional", "q": "Most protective ED documentation style is:", "o": ["Subjective opinions", "Objective facts, times, quotes, actions, reassessments", "Minimal charting", "Copy-paste prior note"], "a": "B", "r": "Objective, time-stamped charting is most defensible."}, {"id": 122, "domain": "Cardiovascular", "q": "Unstable SVT with hypotension and altered mental status. Best next step? Which response is most appropriate?", "o": ["Adenosine", "Vagal maneuvers", "Synchronized cardioversion", "Diltiazem"], "a": "C", "r": "Unstable tachyarrhythmias require synchronized cardioversion."}, {"id": 123, "domain": "Respiratory", "q": "Child with barking cough and stridor at rest. First-line medication? Which response is most appropriate?", "o": ["Albuterol", "Dexamethasone", "Ceftriaxone", "Furosemide"], "a": "B", "r": "Dexamethasone is first-line for croup."}, {"id": 124, "domain": "Neurological", "q": "Lucid interval followed by decline after head injury suggests: What is the priority action?", "o": ["Epidural hematoma", "Subdural hematoma", "Concussion", "SAH"], "a": "A", "r": "Classic epidural hematoma pattern."}, {"id": 125, "domain": "Gastrointestinal", "q": "Pain out of proportion to exam with AF history suggests: What is the priority action?", "o": ["Pancreatitis", "Mesenteric ischemia", "Appendicitis", "SBO"], "a": "B", "r": "Classic mesenteric ischemia."}, {"id": 126, "domain": "GU/GYN/OB", "q": "Earliest sign of postpartum hemorrhagic shock: What is the priority action?", "o": ["Hypotension", "Tachycardia", "Bradycardia", "Cyanosis"], "a": "B", "r": "Tachycardia is often earliest."}, {"id": 127, "domain": "Mental Health", "q": "Initial ED approach to psychosis should include: Which response is most appropriate?", "o": ["Assume psychiatric cause", "Screen for medical causes", "Immediate discharge", "Long-acting antipsychotic"], "a": "B", "r": "Rule out medical and toxic causes first."}, {"id": 128, "domain": "Medical", "q": "DKA with potassium 2.8. Priority action? Choose the best answer.", "o": ["Start insulin", "Replace potassium", "Give bicarbonate", "Start dextrose"], "a": "B", "r": "Potassium must be replaced before insulin."}, {"id": 129, "domain": "MSK/Wound", "q": "Pelvic fracture with hypotension. Most concerning complication? Choose the best answer.", "o": ["Fat embolism", "Internal hemorrhage", "AKI", "PE"], "a": "B", "r": "Pelvic fractures can cause massive hemorrhage."}, {"id": 130, "domain": "HEENT", "q": "Chemical eye burn priority action?", "o": ["Patch and wait", "Immediate copious irrigation", "Antibiotics first", "CT first"], "a": "B", "r": "Immediate irrigation is the priority."}, {"id": 131, "domain": "Environmental/Toxicology", "q": "Agitation, diaphoresis, hypertension, tachycardia, dilated pupils suggest:", "o": ["Cholinergic", "Sympathomimetic", "Opioid", "Sedative"], "a": "B", "r": "This is a sympathomimetic toxidrome."}, {"id": 132, "domain": "Professional", "q": "Needle-stick from known HIV-positive source. First priority?", "o": ["Wait for symptoms", "Report and begin protocol/PEP ASAP", "Tetanus only", "Ignore"], "a": "B", "r": "Immediate reporting and post-exposure protocol are required."}, {"id": 133, "domain": "Cardiovascular", "q": "Pulseless ventricular fibrillation is present. First intervention? Choose the best answer.", "o": ["Amiodarone", "Defibrillation", "Epinephrine", "Atropine"], "a": "B", "r": "VF is a shockable rhythm requiring immediate defibrillation."}, {"id": 134, "domain": "Respiratory", "q": "Tension pneumothorax suspected. Immediate treatment?", "o": ["Chest x-ray", "Needle decompression", "CT scan", "BiPAP"], "a": "B", "r": "Treat immediately without waiting for imaging."}, {"id": 135, "domain": "Neurological", "q": "First imaging test for suspected stroke? Which response is most appropriate?", "o": ["MRI", "CT head without contrast", "CT with contrast", "LP"], "a": "B", "r": "CT without contrast rules out hemorrhage first."}, {"id": 136, "domain": "Gastrointestinal", "q": "Upper GI bleed with hypotension. Priority action?", "o": ["Endoscopy now", "Two large-bore IVs and fluids/blood", "Oral PPI", "NG tube first"], "a": "B", "r": "Resuscitation comes before procedures."}, {"id": 137, "domain": "GU/GYN/OB", "q": "Pregnant trauma patient beyond 20 weeks should be positioned: Which response is most appropriate?", "o": ["Supine", "Left lateral tilt", "Trendelenburg", "Prone"], "a": "B", "r": "Left tilt reduces aortocaval compression."}, {"id": 138, "domain": "Mental Health", "q": "Initial ED approach to psychosis should include: What is the priority action?", "o": ["Assume psychiatric cause", "Screen for medical causes", "Immediate discharge", "Long-acting antipsychotic"], "a": "B", "r": "Rule out medical and toxic causes first."}, {"id": 139, "domain": "Medical", "q": "Opioid overdose antidote? Choose the best answer.", "o": ["Flumazenil", "Naloxone", "Atropine", "Bicarbonate"], "a": "B", "r": "Naloxone reverses opioid respiratory depression."}, {"id": 140, "domain": "MSK/Wound", "q": "Open fracture priority intervention?", "o": ["Ice only", "Antibiotics + tetanus + sterile cover", "Massage", "Immediate discharge"], "a": "B", "r": "Open fractures need prompt antibiotics, tetanus, and sterile covering."}, {"id": 141, "domain": "HEENT", "q": "Chemical eye burn priority action?", "o": ["Patch and wait", "Immediate copious irrigation", "Antibiotics first", "CT first"], "a": "B", "r": "Immediate irrigation is the priority."}, {"id": 142, "domain": "Environmental/Toxicology", "q": "Agitation, diaphoresis, hypertension, tachycardia, dilated pupils suggest: Which response is most appropriate?", "o": ["Cholinergic", "Sympathomimetic", "Opioid", "Sedative"], "a": "B", "r": "This is a sympathomimetic toxidrome."}, {"id": 143, "domain": "Professional", "q": "Unconscious adult needing life-saving emergency treatment is treated under: Which response is most appropriate?", "o": ["Written informed consent only", "Implied consent", "No consent", "Family-only consent"], "a": "B", "r": "Implied consent applies in emergencies."}, {"id": 144, "domain": "Cardiovascular", "q": "Inferior STEMI with hypotension. Which medication should be avoided initially?", "o": ["Aspirin", "Nitroglycerin", "Heparin", "Morphine"], "a": "B", "r": "Nitrates may worsen hypotension, especially with right ventricular involvement."}, {"id": 145, "domain": "Respiratory", "q": "Pulmonary edema with severe dyspnea and hypertension. Best immediate support? What is the priority action?", "o": ["Large fluid bolus", "CPAP/BiPAP", "Oral diuretic", "Chest PT"], "a": "B", "r": "Positive pressure improves oxygenation and reduces preload."}, {"id": 146, "domain": "Neurological", "q": "Lucid interval followed by decline after head injury suggests: What is the priority action?", "o": ["Epidural hematoma", "Subdural hematoma", "Concussion", "SAH"], "a": "A", "r": "Classic epidural hematoma pattern."}, {"id": 147, "domain": "Gastrointestinal", "q": "Pain out of proportion to exam with AF history suggests: Which response is most appropriate?", "o": ["Pancreatitis", "Mesenteric ischemia", "Appendicitis", "SBO"], "a": "B", "r": "Classic mesenteric ischemia."}, {"id": 148, "domain": "GU/GYN/OB", "q": "Positive pregnancy test, pelvic pain, and no IUP seen yet. Next step? Which response is most appropriate?", "o": ["Discharge", "TVUS + quantitative hCG", "Immediate methotrexate", "D&C"], "a": "B", "r": "Evaluate for ectopic pregnancy with TVUS and serial hCG."}, {"id": 149, "domain": "Mental Health", "q": "Alcohol withdrawal with agitation and hallucinations. Best medication? Which response is most appropriate?", "o": ["Haloperidol only", "Benzodiazepines", "Naloxone", "Beta blocker"], "a": "B", "r": "Benzodiazepines are first-line."}, {"id": 150, "domain": "Medical", "q": "DKA with potassium 2.8. Priority action? What is the priority action?", "o": ["Start insulin", "Replace potassium", "Give bicarbonate", "Start dextrose"], "a": "B", "r": "Potassium must be replaced before insulin."}, {"id": 151, "domain": "MSK/Wound", "q": "Open fracture priority intervention? What is the priority action?", "o": ["Ice only", "Antibiotics + tetanus + sterile cover", "Massage", "Immediate discharge"], "a": "B", "r": "Open fractures need prompt antibiotics, tetanus, and sterile covering."}, {"id": 152, "domain": "HEENT", "q": "First intervention for epistaxis? Which response is most appropriate?", "o": ["Lean back", "Lean forward and pinch soft nose", "Immediate surgery", "Give aspirin"], "a": "B", "r": "Direct pressure while leaning forward is first-line."}, {"id": 153, "domain": "Environmental/Toxicology", "q": "Agitation, diaphoresis, hypertension, tachycardia, dilated pupils suggest: Which response is most appropriate?", "o": ["Cholinergic", "Sympathomimetic", "Opioid", "Sedative"], "a": "B", "r": "This is a sympathomimetic toxidrome."}, {"id": 154, "domain": "Professional", "q": "Crushing chest pain and diaphoresis at triage should be assigned:", "o": ["Non-urgent", "Emergent/immediate", "Minor", "Delayed"], "a": "B", "r": "Possible ACS is emergent."}, {"id": 155, "domain": "Cardiovascular", "q": "Unstable SVT with hypotension and altered mental status. Best next step? What is the priority action?", "o": ["Adenosine", "Vagal maneuvers", "Synchronized cardioversion", "Diltiazem"], "a": "C", "r": "Unstable tachyarrhythmias require synchronized cardioversion."}, {"id": 156, "domain": "Respiratory", "q": "Child with barking cough and stridor at rest. First-line medication?", "o": ["Albuterol", "Dexamethasone", "Ceftriaxone", "Furosemide"], "a": "B", "r": "Dexamethasone is first-line for croup."}, {"id": 157, "domain": "Neurological", "q": "Bradycardia, hypertension, and irregular respirations indicate: Which response is most appropriate?", "o": ["Beck triad", "Cushing triad", "Trousseau sign", "Charcot triad"], "a": "B", "r": "Cushing triad suggests increased ICP."}, {"id": 158, "domain": "Gastrointestinal", "q": "RUQ pain, fever, and positive Murphy sign suggest: Which response is most appropriate?", "o": ["Appendicitis", "Cholecystitis", "Diverticulitis", "Pancreatitis"], "a": "B", "r": "Murphy sign indicates acute cholecystitis."}, {"id": 159, "domain": "GU/GYN/OB", "q": "Eclampsia with seizure and severe hypertension. First-line medication? What is the priority action?", "o": ["Diazepam", "Magnesium sulfate", "Heparin", "Naloxone"], "a": "B", "r": "Magnesium is first-line for eclampsia."}, {"id": 160, "domain": "Mental Health", "q": "Initial ED approach to psychosis should include: Which response is most appropriate?", "o": ["Assume psychiatric cause", "Screen for medical causes", "Immediate discharge", "Long-acting antipsychotic"], "a": "B", "r": "Rule out medical and toxic causes first."}, {"id": 161, "domain": "Medical", "q": "Sepsis with hypotension and lactate 5.1. Priority intervention? What is the priority action?", "o": ["Broad-spectrum antibiotics", "30 mL/kg IV crystalloid bolus", "Vasopressors", "Blood cultures first"], "a": "B", "r": "Initial fluid resuscitation is first."}, {"id": 162, "domain": "MSK/Wound", "q": "Pelvic fracture with hypotension. Most concerning complication?", "o": ["Fat embolism", "Internal hemorrhage", "AKI", "PE"], "a": "B", "r": "Pelvic fractures can cause massive hemorrhage."}, {"id": 163, "domain": "HEENT", "q": "First intervention for epistaxis?", "o": ["Lean back", "Lean forward and pinch soft nose", "Immediate surgery", "Give aspirin"], "a": "B", "r": "Direct pressure while leaning forward is first-line."}, {"id": 164, "domain": "Environmental/Toxicology", "q": "Bat exposure in a sleeping child should prompt:", "o": ["Nothing if no bite is seen", "Rabies post-exposure evaluation", "Antibiotics only", "Tetanus only"], "a": "B", "r": "Bat exposures can be occult and require rabies evaluation."}, {"id": 165, "domain": "Professional", "q": "Unconscious adult needing life-saving emergency treatment is treated under:", "o": ["Written informed consent only", "Implied consent", "No consent", "Family-only consent"], "a": "B", "r": "Implied consent applies in emergencies."}, {"id": 166, "domain": "Cardiovascular", "q": "Unstable SVT with hypotension and altered mental status. Best next step? Which response is most appropriate?", "o": ["Adenosine", "Vagal maneuvers", "Synchronized cardioversion", "Diltiazem"], "a": "C", "r": "Unstable tachyarrhythmias require synchronized cardioversion."}, {"id": 167, "domain": "Respiratory", "q": "Tension pneumothorax suspected. Immediate treatment? What is the priority action?", "o": ["Chest x-ray", "Needle decompression", "CT scan", "BiPAP"], "a": "B", "r": "Treat immediately without waiting for imaging."}, {"id": 168, "domain": "Neurological", "q": "First imaging test for suspected stroke? Choose the best answer.", "o": ["MRI", "CT head without contrast", "CT with contrast", "LP"], "a": "B", "r": "CT without contrast rules out hemorrhage first."}, {"id": 169, "domain": "Gastrointestinal", "q": "Pain out of proportion to exam with AF history suggests: What is the priority action?", "o": ["Pancreatitis", "Mesenteric ischemia", "Appendicitis", "SBO"], "a": "B", "r": "Classic mesenteric ischemia."}, {"id": 170, "domain": "GU/GYN/OB", "q": "Pregnant trauma patient beyond 20 weeks should be positioned: What is the priority action?", "o": ["Supine", "Left lateral tilt", "Trendelenburg", "Prone"], "a": "B", "r": "Left tilt reduces aortocaval compression."}, {"id": 171, "domain": "Mental Health", "q": "Alcohol withdrawal with agitation and hallucinations. Best medication? Choose the best answer.", "o": ["Haloperidol only", "Benzodiazepines", "Naloxone", "Beta blocker"], "a": "B", "r": "Benzodiazepines are first-line."}, {"id": 172, "domain": "Medical", "q": "Opioid overdose antidote? Which response is most appropriate?", "o": ["Flumazenil", "Naloxone", "Atropine", "Bicarbonate"], "a": "B", "r": "Naloxone reverses opioid respiratory depression."}, {"id": 173, "domain": "MSK/Wound", "q": "Open fracture priority intervention?", "o": ["Ice only", "Antibiotics + tetanus + sterile cover", "Massage", "Immediate discharge"], "a": "B", "r": "Open fractures need prompt antibiotics, tetanus, and sterile covering."}, {"id": 174, "domain": "HEENT", "q": "First intervention for epistaxis? Choose the best answer.", "o": ["Lean back", "Lean forward and pinch soft nose", "Immediate surgery", "Give aspirin"], "a": "B", "r": "Direct pressure while leaning forward is first-line."}, {"id": 175, "domain": "Environmental/Toxicology", "q": "Bat exposure in a sleeping child should prompt: Choose the best answer.", "o": ["Nothing if no bite is seen", "Rabies post-exposure evaluation", "Antibiotics only", "Tetanus only"], "a": "B", "r": "Bat exposures can be occult and require rabies evaluation."}, {"id": 176, "domain": "Professional", "q": "Most protective ED documentation style is: Choose the best answer.", "o": ["Subjective opinions", "Objective facts, times, quotes, actions, reassessments", "Minimal charting", "Copy-paste prior note"], "a": "B", "r": "Objective, time-stamped charting is most defensible."}, {"id": 177, "domain": "Cardiovascular", "q": "Unstable SVT with hypotension and altered mental status. Best next step?", "o": ["Adenosine", "Vagal maneuvers", "Synchronized cardioversion", "Diltiazem"], "a": "C", "r": "Unstable tachyarrhythmias require synchronized cardioversion."}, {"id": 178, "domain": "Respiratory", "q": "Child with drooling, tripod position, and fever most likely has: Which response is most appropriate?", "o": ["Croup", "Epiglottitis", "Asthma", "Bronchiolitis"], "a": "B", "r": "This presentation strongly suggests epiglottitis."}, {"id": 179, "domain": "Neurological", "q": "First imaging test for suspected stroke? Choose the best answer.", "o": ["MRI", "CT head without contrast", "CT with contrast", "LP"], "a": "B", "r": "CT without contrast rules out hemorrhage first."}, {"id": 180, "domain": "Gastrointestinal", "q": "Upper GI bleed with hypotension. Priority action? Choose the best answer.", "o": ["Endoscopy now", "Two large-bore IVs and fluids/blood", "Oral PPI", "NG tube first"], "a": "B", "r": "Resuscitation comes before procedures."}, {"id": 181, "domain": "GU/GYN/OB", "q": "Positive pregnancy test, pelvic pain, and no IUP seen yet. Next step? What is the priority action?", "o": ["Discharge", "TVUS + quantitative hCG", "Immediate methotrexate", "D&C"], "a": "B", "r": "Evaluate for ectopic pregnancy with TVUS and serial hCG."}, {"id": 182, "domain": "Mental Health", "q": "Initial ED approach to psychosis should include: Which response is most appropriate?", "o": ["Assume psychiatric cause", "Screen for medical causes", "Immediate discharge", "Long-acting antipsychotic"], "a": "B", "r": "Rule out medical and toxic causes first."}, {"id": 183, "domain": "Medical", "q": "DKA with potassium 2.8. Priority action? What is the priority action?", "o": ["Start insulin", "Replace potassium", "Give bicarbonate", "Start dextrose"], "a": "B", "r": "Potassium must be replaced before insulin."}, {"id": 184, "domain": "MSK/Wound", "q": "Severe pain out of proportion after tib-fib fracture suggests: What is the priority action?", "o": ["DVT", "Compartment syndrome", "Cellulitis", "Sprain"], "a": "B", "r": "Pain out of proportion suggests compartment syndrome."}, {"id": 185, "domain": "HEENT", "q": "Penetrating eye injury priority action? Which response is most appropriate?", "o": ["Remove object", "Rigid shield, no pressure", "Tonometry", "Irrigate vigorously"], "a": "B", "r": "Protect the globe and avoid pressure."}, {"id": 186, "domain": "Environmental/Toxicology", "q": "Patient found outside in winter: temp 86°F, bradycardia, hypotension. Priority treatment? Choose the best answer.", "o": ["Passive warming", "Active rewarming", "Defibrillation", "Cold IV fluids"], "a": "B", "r": "Moderate/severe hypothermia requires active rewarming."}, {"id": 187, "domain": "Professional", "q": "Unconscious adult needing life-saving emergency treatment is treated under: What is the priority action?", "o": ["Written informed consent only", "Implied consent", "No consent", "Family-only consent"], "a": "B", "r": "Implied consent applies in emergencies."}, {"id": 188, "domain": "Cardiovascular", "q": "Unstable SVT with hypotension and altered mental status. Best next step? Which response is most appropriate?", "o": ["Adenosine", "Vagal maneuvers", "Synchronized cardioversion", "Diltiazem"], "a": "C", "r": "Unstable tachyarrhythmias require synchronized cardioversion."}, {"id": 189, "domain": "Respiratory", "q": "Tension pneumothorax suspected. Immediate treatment? Choose the best answer.", "o": ["Chest x-ray", "Needle decompression", "CT scan", "BiPAP"], "a": "B", "r": "Treat immediately without waiting for imaging."}, {"id": 190, "domain": "Neurological", "q": "Worst headache of life suggests: Choose the best answer.", "o": ["Migraine", "Subarachnoid hemorrhage", "Sinusitis", "Tension headache"], "a": "B", "r": "Thunderclap headache suggests SAH."}, {"id": 191, "domain": "Gastrointestinal", "q": "Upper GI bleed with hypotension. Priority action?", "o": ["Endoscopy now", "Two large-bore IVs and fluids/blood", "Oral PPI", "NG tube first"], "a": "B", "r": "Resuscitation comes before procedures."}, {"id": 192, "domain": "GU/GYN/OB", "q": "Positive pregnancy test, pelvic pain, and no IUP seen yet. Next step? Which response is most appropriate?", "o": ["Discharge", "TVUS + quantitative hCG", "Immediate methotrexate", "D&C"], "a": "B", "r": "Evaluate for ectopic pregnancy with TVUS and serial hCG."}, {"id": 193, "domain": "Mental Health", "q": "Alcohol withdrawal with agitation and hallucinations. Best medication? What is the priority action?", "o": ["Haloperidol only", "Benzodiazepines", "Naloxone", "Beta blocker"], "a": "B", "r": "Benzodiazepines are first-line."}, {"id": 194, "domain": "Medical", "q": "First medication for anaphylaxis? Which response is most appropriate?", "o": ["Diphenhydramine", "Epinephrine IM", "Steroids", "Albuterol"], "a": "B", "r": "IM epinephrine is the first-line treatment."}, {"id": 195, "domain": "MSK/Wound", "q": "Adult burn to entire right arm plus anterior torso = what TBSA? Choose the best answer.", "o": ["18%", "27%", "36%", "45%"], "a": "B", "r": "Right arm 9% + anterior torso 18% = 27%."}, {"id": 196, "domain": "HEENT", "q": "Penetrating eye injury priority action? What is the priority action?", "o": ["Remove object", "Rigid shield, no pressure", "Tonometry", "Irrigate vigorously"], "a": "B", "r": "Protect the globe and avoid pressure."}, {"id": 197, "domain": "Environmental/Toxicology", "q": "House fire, headache, nausea, cherry-red skin, SpO2 100%. Best treatment? Which response is most appropriate?", "o": ["Activated charcoal", "100% oxygen via nonrebreather", "Albuterol", "Intubation"], "a": "B", "r": "Carbon monoxide poisoning may show a normal pulse ox."}, {"id": 198, "domain": "Professional", "q": "Crushing chest pain and diaphoresis at triage should be assigned: What is the priority action?", "o": ["Non-urgent", "Emergent/immediate", "Minor", "Delayed"], "a": "B", "r": "Possible ACS is emergent."}, {"id": 199, "domain": "Cardiovascular", "q": "Inferior STEMI with hypotension. Which medication should be avoided initially? Choose the best answer.", "o": ["Aspirin", "Nitroglycerin", "Heparin", "Morphine"], "a": "B", "r": "Nitrates may worsen hypotension, especially with right ventricular involvement."}, {"id": 200, "domain": "Respiratory", "q": "Child with drooling, tripod position, and fever most likely has: What is the priority action?", "o": ["Croup", "Epiglottitis", "Asthma", "Bronchiolitis"], "a": "B", "r": "This presentation strongly suggests epiglottitis."}, {"id": 201, "domain": "Neurological", "q": "Bradycardia, hypertension, and irregular respirations indicate: Choose the best answer.", "o": ["Beck triad", "Cushing triad", "Trousseau sign", "Charcot triad"], "a": "B", "r": "Cushing triad suggests increased ICP."}, {"id": 202, "domain": "Gastrointestinal", "q": "Pain out of proportion to exam with AF history suggests: Choose the best answer.", "o": ["Pancreatitis", "Mesenteric ischemia", "Appendicitis", "SBO"], "a": "B", "r": "Classic mesenteric ischemia."}, {"id": 203, "domain": "GU/GYN/OB", "q": "Earliest sign of postpartum hemorrhagic shock: What is the priority action?", "o": ["Hypotension", "Tachycardia", "Bradycardia", "Cyanosis"], "a": "B", "r": "Tachycardia is often earliest."}, {"id": 204, "domain": "Mental Health", "q": "High-risk suicide patient in ED. Best safety action?", "o": ["Routine checks", "1:1 observation and remove hazards", "Discharge with family", "PRN meds only"], "a": "B", "r": "Continuous observation and environmental safety are standard."}, {"id": 205, "domain": "Medical", "q": "Sepsis with hypotension and lactate 5.1. Priority intervention?", "o": ["Broad-spectrum antibiotics", "30 mL/kg IV crystalloid bolus", "Vasopressors", "Blood cultures first"], "a": "B", "r": "Initial fluid resuscitation is first."}, {"id": 206, "domain": "MSK/Wound", "q": "Severe pain out of proportion after tib-fib fracture suggests:", "o": ["DVT", "Compartment syndrome", "Cellulitis", "Sprain"], "a": "B", "r": "Pain out of proportion suggests compartment syndrome."}, {"id": 207, "domain": "HEENT", "q": "First intervention for epistaxis?", "o": ["Lean back", "Lean forward and pinch soft nose", "Immediate surgery", "Give aspirin"], "a": "B", "r": "Direct pressure while leaning forward is first-line."}, {"id": 208, "domain": "Environmental/Toxicology", "q": "Agitation, diaphoresis, hypertension, tachycardia, dilated pupils suggest:", "o": ["Cholinergic", "Sympathomimetic", "Opioid", "Sedative"], "a": "B", "r": "This is a sympathomimetic toxidrome."}, {"id": 209, "domain": "Professional", "q": "Needle-stick from known HIV-positive source. First priority? What is the priority action?", "o": ["Wait for symptoms", "Report and begin protocol/PEP ASAP", "Tetanus only", "Ignore"], "a": "B", "r": "Immediate reporting and post-exposure protocol are required."}, {"id": 210, "domain": "Cardiovascular", "q": "Unstable SVT with hypotension and altered mental status. Best next step? Choose the best answer.", "o": ["Adenosine", "Vagal maneuvers", "Synchronized cardioversion", "Diltiazem"], "a": "C", "r": "Unstable tachyarrhythmias require synchronized cardioversion."}, {"id": 211, "domain": "Respiratory", "q": "Child with drooling, tripod position, and fever most likely has:", "o": ["Croup", "Epiglottitis", "Asthma", "Bronchiolitis"], "a": "B", "r": "This presentation strongly suggests epiglottitis."}, {"id": 212, "domain": "Neurological", "q": "Bradycardia, hypertension, and irregular respirations indicate: Choose the best answer.", "o": ["Beck triad", "Cushing triad", "Trousseau sign", "Charcot triad"], "a": "B", "r": "Cushing triad suggests increased ICP."}, {"id": 213, "domain": "Gastrointestinal", "q": "Pain out of proportion to exam with AF history suggests:", "o": ["Pancreatitis", "Mesenteric ischemia", "Appendicitis", "SBO"], "a": "B", "r": "Classic mesenteric ischemia."}, {"id": 214, "domain": "GU/GYN/OB", "q": "Earliest sign of postpartum hemorrhagic shock: Choose the best answer.", "o": ["Hypotension", "Tachycardia", "Bradycardia", "Cyanosis"], "a": "B", "r": "Tachycardia is often earliest."}, {"id": 215, "domain": "Mental Health", "q": "Initial ED approach to psychosis should include: What is the priority action?", "o": ["Assume psychiatric cause", "Screen for medical causes", "Immediate discharge", "Long-acting antipsychotic"], "a": "B", "r": "Rule out medical and toxic causes first."}, {"id": 216, "domain": "Medical", "q": "First medication for anaphylaxis? Which response is most appropriate?", "o": ["Diphenhydramine", "Epinephrine IM", "Steroids", "Albuterol"], "a": "B", "r": "IM epinephrine is the first-line treatment."}, {"id": 217, "domain": "MSK/Wound", "q": "Severe pain out of proportion after tib-fib fracture suggests: Choose the best answer.", "o": ["DVT", "Compartment syndrome", "Cellulitis", "Sprain"], "a": "B", "r": "Pain out of proportion suggests compartment syndrome."}, {"id": 218, "domain": "HEENT", "q": "Penetrating eye injury priority action? Which response is most appropriate?", "o": ["Remove object", "Rigid shield, no pressure", "Tonometry", "Irrigate vigorously"], "a": "B", "r": "Protect the globe and avoid pressure."}, {"id": 219, "domain": "Environmental/Toxicology", "q": "Bat exposure in a sleeping child should prompt: Choose the best answer.", "o": ["Nothing if no bite is seen", "Rabies post-exposure evaluation", "Antibiotics only", "Tetanus only"], "a": "B", "r": "Bat exposures can be occult and require rabies evaluation."}, {"id": 220, "domain": "Professional", "q": "Unconscious adult needing life-saving emergency treatment is treated under: What is the priority action?", "o": ["Written informed consent only", "Implied consent", "No consent", "Family-only consent"], "a": "B", "r": "Implied consent applies in emergencies."}, {"id": 221, "domain": "Cardiovascular", "q": "Unstable SVT with hypotension and altered mental status. Best next step? Choose the best answer.", "o": ["Adenosine", "Vagal maneuvers", "Synchronized cardioversion", "Diltiazem"], "a": "C", "r": "Unstable tachyarrhythmias require synchronized cardioversion."}, {"id": 222, "domain": "Respiratory", "q": "Child with drooling, tripod position, and fever most likely has:", "o": ["Croup", "Epiglottitis", "Asthma", "Bronchiolitis"], "a": "B", "r": "This presentation strongly suggests epiglottitis."}, {"id": 223, "domain": "Neurological", "q": "First imaging test for suspected stroke?", "o": ["MRI", "CT head without contrast", "CT with contrast", "LP"], "a": "B", "r": "CT without contrast rules out hemorrhage first."}, {"id": 224, "domain": "Gastrointestinal", "q": "Pain out of proportion to exam with AF history suggests: What is the priority action?", "o": ["Pancreatitis", "Mesenteric ischemia", "Appendicitis", "SBO"], "a": "B", "r": "Classic mesenteric ischemia."}, {"id": 225, "domain": "GU/GYN/OB", "q": "Positive pregnancy test, pelvic pain, and no IUP seen yet. Next step? Which response is most appropriate?", "o": ["Discharge", "TVUS + quantitative hCG", "Immediate methotrexate", "D&C"], "a": "B", "r": "Evaluate for ectopic pregnancy with TVUS and serial hCG."}, {"id": 226, "domain": "Mental Health", "q": "Combative stimulant-intoxicated patient. Best initial med class? What is the priority action?", "o": ["Opioid antagonist", "Benzodiazepines", "Antibiotics", "Diuretics"], "a": "B", "r": "Benzodiazepines are first-line for stimulant-related agitation."}, {"id": 227, "domain": "Medical", "q": "First medication for anaphylaxis? Choose the best answer.", "o": ["Diphenhydramine", "Epinephrine IM", "Steroids", "Albuterol"], "a": "B", "r": "IM epinephrine is the first-line treatment."}, {"id": 228, "domain": "MSK/Wound", "q": "Severe pain out of proportion after tib-fib fracture suggests:", "o": ["DVT", "Compartment syndrome", "Cellulitis", "Sprain"], "a": "B", "r": "Pain out of proportion suggests compartment syndrome."}, {"id": 229, "domain": "HEENT", "q": "First intervention for epistaxis?", "o": ["Lean back", "Lean forward and pinch soft nose", "Immediate surgery", "Give aspirin"], "a": "B", "r": "Direct pressure while leaning forward is first-line."}, {"id": 230, "domain": "Environmental/Toxicology", "q": "Salivation, diarrhea, emesis, wheezing, bradycardia suggest: Which response is most appropriate?", "o": ["Sympathomimetic poisoning", "Organophosphate poisoning", "Anticholinergic overdose", "Opioid overdose"], "a": "B", "r": "This is a cholinergic toxidrome."}, {"id": 231, "domain": "Professional", "q": "Unconscious adult needing life-saving emergency treatment is treated under: Which response is most appropriate?", "o": ["Written informed consent only", "Implied consent", "No consent", "Family-only consent"], "a": "B", "r": "Implied consent applies in emergencies."}, {"id": 232, "domain": "Cardiovascular", "q": "Inferior STEMI with hypotension. Which medication should be avoided initially? Which response is most appropriate?", "o": ["Aspirin", "Nitroglycerin", "Heparin", "Morphine"], "a": "B", "r": "Nitrates may worsen hypotension, especially with right ventricular involvement."}, {"id": 233, "domain": "Respiratory", "q": "Pulmonary edema with severe dyspnea and hypertension. Best immediate support? Choose the best answer.", "o": ["Large fluid bolus", "CPAP/BiPAP", "Oral diuretic", "Chest PT"], "a": "B", "r": "Positive pressure improves oxygenation and reduces preload."}, {"id": 234, "domain": "Neurological", "q": "Worst headache of life suggests: What is the priority action?", "o": ["Migraine", "Subarachnoid hemorrhage", "Sinusitis", "Tension headache"], "a": "B", "r": "Thunderclap headache suggests SAH."}, {"id": 235, "domain": "Gastrointestinal", "q": "Pain out of proportion to exam with AF history suggests: What is the priority action?", "o": ["Pancreatitis", "Mesenteric ischemia", "Appendicitis", "SBO"], "a": "B", "r": "Classic mesenteric ischemia."}, {"id": 236, "domain": "GU/GYN/OB", "q": "Positive pregnancy test, pelvic pain, and no IUP seen yet. Next step? Choose the best answer.", "o": ["Discharge", "TVUS + quantitative hCG", "Immediate methotrexate", "D&C"], "a": "B", "r": "Evaluate for ectopic pregnancy with TVUS and serial hCG."}, {"id": 237, "domain": "Mental Health", "q": "Combative stimulant-intoxicated patient. Best initial med class? Which response is most appropriate?", "o": ["Opioid antagonist", "Benzodiazepines", "Antibiotics", "Diuretics"], "a": "B", "r": "Benzodiazepines are first-line for stimulant-related agitation."}, {"id": 238, "domain": "Medical", "q": "First medication for anaphylaxis? Which response is most appropriate?", "o": ["Diphenhydramine", "Epinephrine IM", "Steroids", "Albuterol"], "a": "B", "r": "IM epinephrine is the first-line treatment."}, {"id": 239, "domain": "MSK/Wound", "q": "Pelvic fracture with hypotension. Most concerning complication? What is the priority action?", "o": ["Fat embolism", "Internal hemorrhage", "AKI", "PE"], "a": "B", "r": "Pelvic fractures can cause massive hemorrhage."}, {"id": 240, "domain": "HEENT", "q": "Penetrating eye injury priority action? Choose the best answer.", "o": ["Remove object", "Rigid shield, no pressure", "Tonometry", "Irrigate vigorously"], "a": "B", "r": "Protect the globe and avoid pressure."}, {"id": 241, "domain": "Environmental/Toxicology", "q": "Salivation, diarrhea, emesis, wheezing, bradycardia suggest: What is the priority action?", "o": ["Sympathomimetic poisoning", "Organophosphate poisoning", "Anticholinergic overdose", "Opioid overdose"], "a": "B", "r": "This is a cholinergic toxidrome."}, {"id": 242, "domain": "Professional", "q": "Needle-stick from known HIV-positive source. First priority? Which response is most appropriate?", "o": ["Wait for symptoms", "Report and begin protocol/PEP ASAP", "Tetanus only", "Ignore"], "a": "B", "r": "Immediate reporting and post-exposure protocol are required."}, {"id": 243, "domain": "Cardiovascular", "q": "Hyperkalemia with peaked T waves. First medication to stabilize the myocardium? What is the priority action?", "o": ["Insulin with dextrose", "Calcium gluconate", "Kayexalate", "Albuterol"], "a": "B", "r": "Calcium stabilizes the myocardium before shifting potassium."}, {"id": 244, "domain": "Respiratory", "q": "Child with drooling, tripod position, and fever most likely has: Which response is most appropriate?", "o": ["Croup", "Epiglottitis", "Asthma", "Bronchiolitis"], "a": "B", "r": "This presentation strongly suggests epiglottitis."}, {"id": 245, "domain": "Neurological", "q": "Bradycardia, hypertension, and irregular respirations indicate: Which response is most appropriate?", "o": ["Beck triad", "Cushing triad", "Trousseau sign", "Charcot triad"], "a": "B", "r": "Cushing triad suggests increased ICP."}, {"id": 246, "domain": "Gastrointestinal", "q": "Pain out of proportion to exam with AF history suggests:", "o": ["Pancreatitis", "Mesenteric ischemia", "Appendicitis", "SBO"], "a": "B", "r": "Classic mesenteric ischemia."}, {"id": 247, "domain": "GU/GYN/OB", "q": "Pregnant trauma patient beyond 20 weeks should be positioned:", "o": ["Supine", "Left lateral tilt", "Trendelenburg", "Prone"], "a": "B", "r": "Left tilt reduces aortocaval compression."}, {"id": 248, "domain": "Mental Health", "q": "Alcohol withdrawal with agitation and hallucinations. Best medication? Which response is most appropriate?", "o": ["Haloperidol only", "Benzodiazepines", "Naloxone", "Beta blocker"], "a": "B", "r": "Benzodiazepines are first-line."}, {"id": 249, "domain": "Medical", "q": "Sepsis with hypotension and lactate 5.1. Priority intervention? Which response is most appropriate?", "o": ["Broad-spectrum antibiotics", "30 mL/kg IV crystalloid bolus", "Vasopressors", "Blood cultures first"], "a": "B", "r": "Initial fluid resuscitation is first."}, {"id": 250, "domain": "MSK/Wound", "q": "Severe pain out of proportion after tib-fib fracture suggests: What is the priority action?", "o": ["DVT", "Compartment syndrome", "Cellulitis", "Sprain"], "a": "B", "r": "Pain out of proportion suggests compartment syndrome."}, {"id": 251, "domain": "HEENT", "q": "Nasal trauma with septal hematoma risks:", "o": ["Cosmetic issue only", "Cartilage necrosis", "Hearing loss", "Stroke"], "a": "B", "r": "Septal hematoma can cause cartilage necrosis."}, {"id": 252, "domain": "Environmental/Toxicology", "q": "Bat exposure in a sleeping child should prompt: Which response is most appropriate?", "o": ["Nothing if no bite is seen", "Rabies post-exposure evaluation", "Antibiotics only", "Tetanus only"], "a": "B", "r": "Bat exposures can be occult and require rabies evaluation."}, {"id": 253, "domain": "Professional", "q": "Crushing chest pain and diaphoresis at triage should be assigned:", "o": ["Non-urgent", "Emergent/immediate", "Minor", "Delayed"], "a": "B", "r": "Possible ACS is emergent."}, {"id": 254, "domain": "Cardiovascular", "q": "Unstable SVT with hypotension and altered mental status. Best next step? Choose the best answer.", "o": ["Adenosine", "Vagal maneuvers", "Synchronized cardioversion", "Diltiazem"], "a": "C", "r": "Unstable tachyarrhythmias require synchronized cardioversion."}, {"id": 255, "domain": "Respiratory", "q": "Child with barking cough and stridor at rest. First-line medication?", "o": ["Albuterol", "Dexamethasone", "Ceftriaxone", "Furosemide"], "a": "B", "r": "Dexamethasone is first-line for croup."}, {"id": 256, "domain": "Neurological", "q": "First imaging test for suspected stroke? Choose the best answer.", "o": ["MRI", "CT head without contrast", "CT with contrast", "LP"], "a": "B", "r": "CT without contrast rules out hemorrhage first."}, {"id": 257, "domain": "Gastrointestinal", "q": "RUQ pain, fever, and positive Murphy sign suggest: What is the priority action?", "o": ["Appendicitis", "Cholecystitis", "Diverticulitis", "Pancreatitis"], "a": "B", "r": "Murphy sign indicates acute cholecystitis."}, {"id": 258, "domain": "GU/GYN/OB", "q": "Eclampsia with seizure and severe hypertension. First-line medication? Which response is most appropriate?", "o": ["Diazepam", "Magnesium sulfate", "Heparin", "Naloxone"], "a": "B", "r": "Magnesium is first-line for eclampsia."}, {"id": 259, "domain": "Mental Health", "q": "Combative stimulant-intoxicated patient. Best initial med class? Which response is most appropriate?", "o": ["Opioid antagonist", "Benzodiazepines", "Antibiotics", "Diuretics"], "a": "B", "r": "Benzodiazepines are first-line for stimulant-related agitation."}, {"id": 260, "domain": "Medical", "q": "Opioid overdose antidote? Choose the best answer.", "o": ["Flumazenil", "Naloxone", "Atropine", "Bicarbonate"], "a": "B", "r": "Naloxone reverses opioid respiratory depression."}, {"id": 261, "domain": "MSK/Wound", "q": "Open fracture priority intervention? Which response is most appropriate?", "o": ["Ice only", "Antibiotics + tetanus + sterile cover", "Massage", "Immediate discharge"], "a": "B", "r": "Open fractures need prompt antibiotics, tetanus, and sterile covering."}, {"id": 262, "domain": "HEENT", "q": "First intervention for epistaxis? Choose the best answer.", "o": ["Lean back", "Lean forward and pinch soft nose", "Immediate surgery", "Give aspirin"], "a": "B", "r": "Direct pressure while leaning forward is first-line."}, {"id": 263, "domain": "Environmental/Toxicology", "q": "Patient found outside in winter: temp 86°F, bradycardia, hypotension. Priority treatment? Which response is most appropriate?", "o": ["Passive warming", "Active rewarming", "Defibrillation", "Cold IV fluids"], "a": "B", "r": "Moderate/severe hypothermia requires active rewarming."}, {"id": 264, "domain": "Professional", "q": "Unconscious adult needing life-saving emergency treatment is treated under: Which response is most appropriate?", "o": ["Written informed consent only", "Implied consent", "No consent", "Family-only consent"], "a": "B", "r": "Implied consent applies in emergencies."}, {"id": 265, "domain": "Cardiovascular", "q": "Unstable SVT with hypotension and altered mental status. Best next step? Choose the best answer.", "o": ["Adenosine", "Vagal maneuvers", "Synchronized cardioversion", "Diltiazem"], "a": "C", "r": "Unstable tachyarrhythmias require synchronized cardioversion."}, {"id": 266, "domain": "Respiratory", "q": "Tension pneumothorax suspected. Immediate treatment?", "o": ["Chest x-ray", "Needle decompression", "CT scan", "BiPAP"], "a": "B", "r": "Treat immediately without waiting for imaging."}, {"id": 267, "domain": "Neurological", "q": "Lucid interval followed by decline after head injury suggests:", "o": ["Epidural hematoma", "Subdural hematoma", "Concussion", "SAH"], "a": "A", "r": "Classic epidural hematoma pattern."}, {"id": 268, "domain": "Gastrointestinal", "q": "Pain out of proportion to exam with AF history suggests:", "o": ["Pancreatitis", "Mesenteric ischemia", "Appendicitis", "SBO"], "a": "B", "r": "Classic mesenteric ischemia."}, {"id": 269, "domain": "GU/GYN/OB", "q": "Earliest sign of postpartum hemorrhagic shock:", "o": ["Hypotension", "Tachycardia", "Bradycardia", "Cyanosis"], "a": "B", "r": "Tachycardia is often earliest."}, {"id": 270, "domain": "Mental Health", "q": "Combative stimulant-intoxicated patient. Best initial med class?", "o": ["Opioid antagonist", "Benzodiazepines", "Antibiotics", "Diuretics"], "a": "B", "r": "Benzodiazepines are first-line for stimulant-related agitation."}, {"id": 271, "domain": "Medical", "q": "DKA with potassium 2.8. Priority action?", "o": ["Start insulin", "Replace potassium", "Give bicarbonate", "Start dextrose"], "a": "B", "r": "Potassium must be replaced before insulin."}, {"id": 272, "domain": "MSK/Wound", "q": "Open fracture priority intervention? Which response is most appropriate?", "o": ["Ice only", "Antibiotics + tetanus + sterile cover", "Massage", "Immediate discharge"], "a": "B", "r": "Open fractures need prompt antibiotics, tetanus, and sterile covering."}, {"id": 273, "domain": "HEENT", "q": "Chemical eye burn priority action? Choose the best answer.", "o": ["Patch and wait", "Immediate copious irrigation", "Antibiotics first", "CT first"], "a": "B", "r": "Immediate irrigation is the priority."}, {"id": 274, "domain": "Environmental/Toxicology", "q": "Pit viper snakebite with progressive swelling. Priority treatment?", "o": ["Ice and elevation only", "Antivenom evaluation and supportive care", "Incision and suction", "Prophylactic antibiotics only"], "a": "B", "r": "Progressive envenomation requires antivenom evaluation and supportive management."}, {"id": 275, "domain": "Professional", "q": "Crushing chest pain and diaphoresis at triage should be assigned: Choose the best answer.", "o": ["Non-urgent", "Emergent/immediate", "Minor", "Delayed"], "a": "B", "r": "Possible ACS is emergent."}, {"id": 276, "domain": "Cardiovascular", "q": "Pulseless ventricular fibrillation is present. First intervention? Which response is most appropriate?", "o": ["Amiodarone", "Defibrillation", "Epinephrine", "Atropine"], "a": "B", "r": "VF is a shockable rhythm requiring immediate defibrillation."}, {"id": 277, "domain": "Respiratory", "q": "Tension pneumothorax suspected. Immediate treatment?", "o": ["Chest x-ray", "Needle decompression", "CT scan", "BiPAP"], "a": "B", "r": "Treat immediately without waiting for imaging."}, {"id": 278, "domain": "Neurological", "q": "Lucid interval followed by decline after head injury suggests:", "o": ["Epidural hematoma", "Subdural hematoma", "Concussion", "SAH"], "a": "A", "r": "Classic epidural hematoma pattern."}, {"id": 279, "domain": "Gastrointestinal", "q": "Severe flank pain with hematuria and vomiting most likely indicates:", "o": ["Pyelonephritis", "Kidney stone", "AAA", "Pancreatitis"], "a": "B", "r": "Classic nephrolithiasis presentation."}, {"id": 280, "domain": "GU/GYN/OB", "q": "Positive pregnancy test, pelvic pain, and no IUP seen yet. Next step? Which response is most appropriate?", "o": ["Discharge", "TVUS + quantitative hCG", "Immediate methotrexate", "D&C"], "a": "B", "r": "Evaluate for ectopic pregnancy with TVUS and serial hCG."}, {"id": 281, "domain": "Mental Health", "q": "Combative stimulant-intoxicated patient. Best initial med class? Choose the best answer.", "o": ["Opioid antagonist", "Benzodiazepines", "Antibiotics", "Diuretics"], "a": "B", "r": "Benzodiazepines are first-line for stimulant-related agitation."}, {"id": 282, "domain": "Medical", "q": "Sepsis with hypotension and lactate 5.1. Priority intervention? Which response is most appropriate?", "o": ["Broad-spectrum antibiotics", "30 mL/kg IV crystalloid bolus", "Vasopressors", "Blood cultures first"], "a": "B", "r": "Initial fluid resuscitation is first."}, {"id": 283, "domain": "MSK/Wound", "q": "Open fracture priority intervention? What is the priority action?", "o": ["Ice only", "Antibiotics + tetanus + sterile cover", "Massage", "Immediate discharge"], "a": "B", "r": "Open fractures need prompt antibiotics, tetanus, and sterile covering."}, {"id": 284, "domain": "HEENT", "q": "First intervention for epistaxis? What is the priority action?", "o": ["Lean back", "Lean forward and pinch soft nose", "Immediate surgery", "Give aspirin"], "a": "B", "r": "Direct pressure while leaning forward is first-line."}, {"id": 285, "domain": "Environmental/Toxicology", "q": "Salivation, diarrhea, emesis, wheezing, bradycardia suggest:", "o": ["Sympathomimetic poisoning", "Organophosphate poisoning", "Anticholinergic overdose", "Opioid overdose"], "a": "B", "r": "This is a cholinergic toxidrome."}, {"id": 286, "domain": "Professional", "q": "Crushing chest pain and diaphoresis at triage should be assigned: Which response is most appropriate?", "o": ["Non-urgent", "Emergent/immediate", "Minor", "Delayed"], "a": "B", "r": "Possible ACS is emergent."}, {"id": 287, "domain": "Cardiovascular", "q": "Inferior STEMI with hypotension. Which medication should be avoided initially?", "o": ["Aspirin", "Nitroglycerin", "Heparin", "Morphine"], "a": "B", "r": "Nitrates may worsen hypotension, especially with right ventricular involvement."}, {"id": 288, "domain": "Respiratory", "q": "Child with barking cough and stridor at rest. First-line medication? What is the priority action?", "o": ["Albuterol", "Dexamethasone", "Ceftriaxone", "Furosemide"], "a": "B", "r": "Dexamethasone is first-line for croup."}, {"id": 289, "domain": "Neurological", "q": "Worst headache of life suggests: Which response is most appropriate?", "o": ["Migraine", "Subarachnoid hemorrhage", "Sinusitis", "Tension headache"], "a": "B", "r": "Thunderclap headache suggests SAH."}, {"id": 290, "domain": "Gastrointestinal", "q": "Severe flank pain with hematuria and vomiting most likely indicates:", "o": ["Pyelonephritis", "Kidney stone", "AAA", "Pancreatitis"], "a": "B", "r": "Classic nephrolithiasis presentation."}, {"id": 291, "domain": "GU/GYN/OB", "q": "Earliest sign of postpartum hemorrhagic shock:", "o": ["Hypotension", "Tachycardia", "Bradycardia", "Cyanosis"], "a": "B", "r": "Tachycardia is often earliest."}, {"id": 292, "domain": "Mental Health", "q": "Initial ED approach to psychosis should include:", "o": ["Assume psychiatric cause", "Screen for medical causes", "Immediate discharge", "Long-acting antipsychotic"], "a": "B", "r": "Rule out medical and toxic causes first."}, {"id": 293, "domain": "Medical", "q": "Sepsis with hypotension and lactate 5.1. Priority intervention? Which response is most appropriate?", "o": ["Broad-spectrum antibiotics", "30 mL/kg IV crystalloid bolus", "Vasopressors", "Blood cultures first"], "a": "B", "r": "Initial fluid resuscitation is first."}, {"id": 294, "domain": "MSK/Wound", "q": "Pelvic fracture with hypotension. Most concerning complication? What is the priority action?", "o": ["Fat embolism", "Internal hemorrhage", "AKI", "PE"], "a": "B", "r": "Pelvic fractures can cause massive hemorrhage."}, {"id": 295, "domain": "HEENT", "q": "Chemical eye burn priority action?", "o": ["Patch and wait", "Immediate copious irrigation", "Antibiotics first", "CT first"], "a": "B", "r": "Immediate irrigation is the priority."}, {"id": 296, "domain": "Environmental/Toxicology", "q": "Bat exposure in a sleeping child should prompt:", "o": ["Nothing if no bite is seen", "Rabies post-exposure evaluation", "Antibiotics only", "Tetanus only"], "a": "B", "r": "Bat exposures can be occult and require rabies evaluation."}, {"id": 297, "domain": "Professional", "q": "Crushing chest pain and diaphoresis at triage should be assigned: What is the priority action?", "o": ["Non-urgent", "Emergent/immediate", "Minor", "Delayed"], "a": "B", "r": "Possible ACS is emergent."}, {"id": 298, "domain": "Cardiovascular", "q": "Inferior STEMI with hypotension. Which medication should be avoided initially? What is the priority action?", "o": ["Aspirin", "Nitroglycerin", "Heparin", "Morphine"], "a": "B", "r": "Nitrates may worsen hypotension, especially with right ventricular involvement."}, {"id": 299, "domain": "Respiratory", "q": "Child with drooling, tripod position, and fever most likely has:", "o": ["Croup", "Epiglottitis", "Asthma", "Bronchiolitis"], "a": "B", "r": "This presentation strongly suggests epiglottitis."}, {"id": 300, "domain": "Neurological", "q": "Bradycardia, hypertension, and irregular respirations indicate:", "o": ["Beck triad", "Cushing triad", "Trousseau sign", "Charcot triad"], "a": "B", "r": "Cushing triad suggests increased ICP."}];
+
+let state = {
+  view: "home",
+  started: false,
+  finished: false,
+  modeLabel: "",
+  exam: [],
+  idx: 0,
+  answers: {},
+  flags: {},
+  missedHistory: [],
+  seenHistory: [],
+  completedSets: 0,
+  bestScore: null,
+  lastScore: null,
+  start: null,
+  elapsed: 0,
+  mins: 0,
+  domainStats: {}
+};
+
+const $ = (id) => document.getElementById(id);
+
+function saveState() { localStorage.setItem(APP_KEY, JSON.stringify(state)); }
+function loadState() { try { const raw = localStorage.getItem(APP_KEY); if(raw) state = JSON.parse(raw); } catch(e) {} }
+function fmt(ms) {
+  const total = Math.max(0, Math.floor(ms/1000));
+  const h = Math.floor(total/3600), m = Math.floor((total%3600)/60), s = total%60;
+  if(h>0) return String(h).padStart(2,"0")+":"+String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+  return String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+}
+function now() { return Date.now(); }
+function elapsedMs() { return state.started && !state.finished && state.start ? state.elapsed + (now() - state.start) : state.elapsed || 0; }
+function remainingMs() { return state.mins ? Math.max(0, state.mins*60000 - elapsedMs()) : 0; }
+function shuffle(arr) { const a = arr.slice(); for(let i=a.length-1;i>0;i--) { const j = Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function toast(msg) {
+  const t = $("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"), 1700);
+}
+function updateTop() {
+  $("topQ").textContent = state.started ? `${state.idx+1}/${state.exam.length}` : "—";
+  $("topAnswered").textContent = Object.keys(state.answers || {}).length;
+  $("topTimer").textContent = state.started ? (state.mins ? fmt(remainingMs()) : fmt(elapsedMs())) : "--:--";
+  $("topProgress").style.width = state.started ? `${(((state.idx+1)/Math.max(1,state.exam.length))*100).toFixed(1)}%` : "0%";
+}
+function showView(name) {
+  ["homeView","practiceView","drillView","quizView","resultsView"].forEach(id => $(id).classList.add("hidden"));
+  if(name==="home") $("homeView").classList.remove("hidden");
+  if(name==="practice") $("practiceView").classList.remove("hidden");
+  if(name==="drill") $("drillView").classList.remove("hidden");
+  if(name==="quiz") $("quizView").classList.remove("hidden");
+  if(name==="results") $("resultsView").classList.remove("hidden");
+  state.view = name;
+  saveState();
+}
+function populateDomains() {
+  const sel = $("drillDomain");
+  sel.innerHTML = "";
+  [...new Set(BANK.map(q=>q.domain))].forEach(d => {
+    const o = document.createElement("option");
+    o.value = d;
+    o.textContent = d;
+    sel.appendChild(o);
+  });
+}
+function getQuestionById(id) { return BANK.find(q => q.id === id); }
+function chooseQuestions(count, source="all", domain=null) {
+  let pool = BANK.slice();
+  if(domain) pool = pool.filter(q => q.domain === domain);
+  if(source === "fresh") {
+    const unseen = pool.filter(q => !(state.seenHistory || []).includes(q.id));
+    if(unseen.length >= count) pool = unseen;
+  }
+  return shuffle(pool).slice(0, count).map(q => q.id);
+}
+function buildSession(ids, label, mins) {
+  state.modeLabel = label;
+  state.exam = ids;
+  state.idx = 0;
+  state.answers = {};
+  state.flags = {};
+  state.started = true;
+  state.finished = false;
+  state.elapsed = 0;
+  state.start = now();
+  state.mins = mins;
+  showView("quiz");
+  renderQuestion();
+  saveState();
+}
+function startPractice() {
+  const count = parseInt($("practiceCount").value, 10);
+  const mins = parseInt($("practiceTimer").value, 10);
+  const source = $("practiceSource").value;
+  const ids = chooseQuestions(count, source);
+  buildSession(ids, "Practice", mins);
+}
+function startExam() {
+  const ids = chooseQuestions(175, "all");
+  buildSession(ids, "Full Exam", 180);
+}
+function startDrill() {
+  const domain = $("drillDomain").value;
+  const count = parseInt($("drillCount").value, 10);
+  const mins = parseInt($("drillTimer").value, 10);
+  const ids = chooseQuestions(count, "all", domain);
+  buildSession(ids, `${domain} Drill`, mins);
+}
+function currentQuestion() {
+  const id = state.exam[state.idx];
+  return getQuestionById(id);
+}
+function renderQuestion() {
+  const q = currentQuestion();
+  $("domainBadge").textContent = q.domain;
+  $("modeBadge").textContent = state.flags[q.id] ? "🚩 Flagged" : (state.modeLabel || "Mode");
+  $("qMeta").textContent = `Question ${state.idx+1} of ${state.exam.length}`;
+  $("qText").textContent = q.q;
+  const box = $("choices");
+  box.innerHTML = "";
+  ["A","B","C","D"].forEach((letter,i) => {
+    const btn = document.createElement("button");
+    btn.className = "choice" + ((state.answers[q.id] === letter) ? " sel" : "");
+    btn.textContent = `${letter}. ${q.o[i]}`;
+    btn.onclick = () => {
+      state.answers[q.id] = letter;
+      saveState();
+      renderQuestion();
+    };
+    box.appendChild(btn);
+  });
+  $("prevBtn").disabled = state.idx === 0;
+  $("nextBtn").textContent = state.idx === state.exam.length - 1 ? "Finish ✅" : "Next ➡";
+  updateTop();
+}
+function scoreData() {
+  const rows = state.exam.map((id,ix) => {
+    const q = getQuestionById(id);
+    const got = state.answers[id] || "—";
+    const ok = got === q.a;
+    return { n:ix+1, id:q.id, domain:q.domain, got, ans:q.a, ok, r:q.r };
+  });
+  const correct = rows.filter(r => r.ok).length;
+  const domainMap = {};
+  rows.forEach(r => {
+    if(!domainMap[r.domain]) domainMap[r.domain] = { total:0, correct:0 };
+    domainMap[r.domain].total++;
+    if(r.ok) domainMap[r.domain].correct++;
+  });
+  return { rows, correct, domainMap };
+}
+function mergeDomainStats(sessionRows) {
+  state.domainStats = state.domainStats || {};
+  sessionRows.forEach(r => {
+    if(!state.domainStats[r.domain]) state.domainStats[r.domain] = { total:0, correct:0 };
+    state.domainStats[r.domain].total++;
+    if(r.ok) state.domainStats[r.domain].correct++;
+  });
+}
+function readinessText(score) {
+  if(score === null) return "—";
+  if(score >= 80) return "Hot";
+  if(score >= 70) return "Close";
+  return "Build";
+}
+function finishSession() {
+  if(state.finished) return;
+  state.elapsed = elapsedMs();
+  state.start = null;
+  state.finished = true;
+  state.completedSets = (state.completedSets || 0) + 1;
+  const s = scoreData();
+  const pct = Math.round((s.correct / state.exam.length) * 100);
+  state.lastScore = pct;
+  state.bestScore = state.bestScore === null ? pct : Math.max(state.bestScore, pct);
+  s.rows.forEach(r => {
+    if(!(state.seenHistory || []).includes(r.id)) state.seenHistory.push(r.id);
+    if(!r.ok && !(state.missedHistory || []).includes(r.id)) state.missedHistory.push(r.id);
+  });
+  mergeDomainStats(s.rows);
+  saveState();
+  renderResults();
+  showView("results");
+  updateDashboard();
+}
+function renderResults() {
+  const s = scoreData();
+  const pct = Math.round((s.correct / state.exam.length) * 100);
+  $("scorePct").textContent = `${pct}%`;
+  $("scoreRaw").textContent = `${s.correct}/${state.exam.length}`;
+  $("timeUsed").textContent = fmt(state.elapsed);
+  let html = '<table class="table"><thead><tr><th>Domain</th><th>Correct</th><th>Total</th><th>%</th></tr></thead><tbody>';
+  Object.keys(s.domainMap).sort().forEach(domain => {
+    const x = s.domainMap[domain];
+    const dp = Math.round((x.correct / x.total) * 100);
+    html += `<tr><td>${domain}</td><td>${x.correct}</td><td>${x.total}</td><td>${dp}%</td></tr>`;
+  });
+  html += '</tbody></table>';
+  $("domainTable").innerHTML = html;
+  renderReview("missed");
+}
+function renderReview(mode) {
+  const s = scoreData();
+  let rows = s.rows;
+  if(mode === "missed") rows = rows.filter(r => !r.ok);
+  let html = '<table class="table"><thead><tr><th>#</th><th>Your</th><th>Correct</th><th>Result</th><th>Rationale</th></tr></thead><tbody>';
+  rows.forEach(r => {
+    html += `<tr><td>${r.n}</td><td>${r.got}</td><td>${r.ans}</td><td class="${r.ok ? 'ok' : 'bad'}">${r.ok ? '✅' : '❌'}</td><td>${r.r}</td></tr>`;
+  });
+  html += '</tbody></table>';
+  $("reviewBlock").innerHTML = html;
+}
+function updateDashboard() {
+  $("kpiBank").textContent = BANK.length;
+  $("kpiSets").textContent = state.completedSets || 0;
+  $("kpiBest").textContent = state.bestScore === null ? "—" : `${state.bestScore}%`;
+  $("kpiReady").textContent = readinessText(state.bestScore);
+  renderSnapshot();
+  drawReadiness();
+}
+function renderSnapshot() {
+  const ds = state.domainStats || {};
+  if(!Object.keys(ds).length) {
+    $("snapshotTable").innerHTML = '<div class="muted">No performance data yet. Run a set and this fills in automatically.</div>';
+    return;
+  }
+  let html = '<table class="table"><thead><tr><th>Domain</th><th>Accuracy</th></tr></thead><tbody>';
+  Object.keys(ds).sort().forEach(d => {
+    const x = ds[d];
+    const pct = Math.round((x.correct / x.total) * 100);
+    html += `<tr><td>${d}</td><td>${pct}%</td></tr>`;
+  });
+  html += '</tbody></table>';
+  $("snapshotTable").innerHTML = html;
+}
+function drawReadiness() {
+  const c = $("readinessCanvas");
+  const ctx = c.getContext("2d");
+  ctx.clearRect(0,0,c.width,c.height);
+  const score = state.bestScore === null ? 0 : state.bestScore;
+  const cx = c.width/2, cy = c.height/2, r = 74;
+  ctx.lineWidth = 16;
+  ctx.strokeStyle = "rgba(255,255,255,.09)";
+  ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2); ctx.stroke();
+  const start = -Math.PI/2;
+  const end = start + (Math.PI*2*(score/100));
+  ctx.strokeStyle = score >= 80 ? "#59d98e" : score >= 70 ? "#ffd166" : "#7aa7ff";
+  ctx.beginPath(); ctx.arc(cx,cy,r,start,end); ctx.stroke();
+  ctx.fillStyle = "#f5f7ff";
+  ctx.textAlign = "center";
+  ctx.font = "800 34px -apple-system, sans-serif";
+  ctx.fillText(score ? score + "%" : "—", cx, cy+10);
+  ctx.fillStyle = "#aab6d8";
+  ctx.font = "12px -apple-system, sans-serif";
+  ctx.fillText(readinessText(state.bestScore), cx, cy+36);
+}
+function goBackHome(clearCurrent=true) {
+  if(clearCurrent) {
+    state.started = false;
+    state.finished = false;
+    state.modeLabel = "";
+    state.exam = [];
+    state.idx = 0;
+    state.answers = {};
+    state.flags = {};
+    state.start = null;
+    state.elapsed = 0;
+    state.mins = 0;
+  }
+  saveState();
+  updateDashboard();
+  showView("home");
+  updateTop();
+}
+function startMissedReview() {
+  const ids = (state.missedHistory || []).slice();
+  if(!ids.length) return toast("No missed questions yet");
+  buildSession(shuffle(ids).slice(0, Math.min(50, ids.length)), "Missed Review", 0);
+}
+function startFlaggedReview() {
+  const ids = Object.keys(state.flags || {}).map(x => parseInt(x,10));
+  if(!ids.length) return toast("No flagged questions in the current session");
+  buildSession(ids, "Flagged Review", 0);
+}
+
+$("continueBtn").onclick = () => {
+  if(state.started && !state.finished && state.exam.length) {
+    showView("quiz");
+    if(!state.start) state.start = now();
+    renderQuestion();
+  } else toast("No active session");
+};
+$("openPracticeBtn").onclick = ()=>showView("practice");
+$("openDrillBtn").onclick = ()=>showView("drill");
+$("practiceBackBtn").onclick = ()=>showView("home");
+$("drillBackBtn").onclick = ()=>showView("home");
+$("startPracticeBtn").onclick = startPractice;
+$("startExamBtn").onclick = startExam;
+$("startDrillBtn").onclick = startDrill;
+$("missedBtn").onclick = startMissedReview;
+$("flaggedBtn").onclick = startFlaggedReview;
+$("prevBtn").onclick = ()=>{ if(state.idx>0) { state.idx--; saveState(); renderQuestion(); } };
+$("nextBtn").onclick = ()=>{ if(state.idx < state.exam.length-1) { state.idx++; saveState(); renderQuestion(); } else finishSession(); };
+$("flagBtn").onclick = ()=>{
+  const q = currentQuestion();
+  if(state.flags[q.id]) delete state.flags[q.id];
+  else state.flags[q.id] = true;
+  saveState();
+  renderQuestion();
+};
+$("finishBtn").onclick = finishSession;
+$("reviewMissedBtn").onclick = ()=>renderReview("missed");
+$("reviewAllBtn").onclick = ()=>renderReview("all");
+$("backHomeBtn").onclick = ()=>goBackHome(true);
+$("clearSessionBtn").onclick = ()=>{ if(confirm("Clear the current session and go back to the dashboard?")) goBackHome(true); };
+
+function init() {
+  loadState();
+  populateDomains();
+  updateDashboard();
+  if(state.view === "quiz" && state.started && !state.finished && state.exam.length) {
+    showView("quiz");
+    if(!state.start) state.start = now();
+    renderQuestion();
+  } else if(state.view === "results" && state.finished) {
+    showView("results");
+    renderResults();
+  } else {
+    showView("home");
+  }
+  updateTop();
+  tick();
+}
+function tick() {
+  updateTop();
+  if(state.started && !state.finished && state.mins && remainingMs() <= 0) finishSession();
+  requestAnimationFrame(tick);
+}
+init();
+</script>
+</body>
+</html>
